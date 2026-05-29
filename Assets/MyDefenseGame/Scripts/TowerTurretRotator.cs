@@ -6,24 +6,29 @@ namespace MyDefenseGame
     /// <summary>
     /// 현재 감지된 타겟 방향으로 터렛을 회전시키는 클래스
     /// </summary>
+    [RequireComponent(typeof(TowerTargetDetector))]
     public class TowerTurretRotator : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private TowerTargetDetector _targetDetector;
+        private TowerTargetDetector _targetDetector;
         [SerializeField] private Transform _turretRotator;
+
+        [Tooltip("터렛 회전 속도")]
         [SerializeField] private float _rotationSpeed = 10f;
         #endregion
 
         #region Unity Event Method
+        private void Awake()
+        {
+            _targetDetector = GetComponent<TowerTargetDetector>();
+        }
+
         private void Update()
         {
-            if (_targetDetector != null)
+            if (_targetDetector.GetCurrentTarget() != null)
             {
-                if (_targetDetector.GetCurrentTarget() != null)
-                {
-                    //타겟으로 터렛을 회전
-                    RotateTurretToTarget(_targetDetector.GetCurrentTarget());
-                }
+                //타겟으로 터렛을 회전
+                RotateTurretToTarget(_targetDetector.GetCurrentTarget());
             }
         }
         #endregion

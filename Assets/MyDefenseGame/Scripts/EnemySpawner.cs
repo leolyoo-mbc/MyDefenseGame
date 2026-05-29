@@ -1,4 +1,3 @@
-//EnemySpawner.cs
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -10,14 +9,8 @@ namespace MyDefenseGame
     /// </summary>
     public class EnemySpawner : MonoBehaviour
     {
-        //적 스폰 기능 구현
-        //시작 지점 위치에 적 1개 스폰
-        //이후 적 5초 간격으로 1마리씩 스폰
-        //이후 5초마다 1마리씩 추가해서 스폰
-        //화면 상단에 Text로 타이머 UI
         #region Variables
         [Header("스폰 기본 설정")]
-
         [Tooltip("스폰할 적의 기본 프리팹")]
         [SerializeField] private GameObject _enemyPrefab;
 
@@ -25,7 +18,6 @@ namespace MyDefenseGame
         [SerializeField] private Transform _spawnPoint;
 
         [Space(20)]
-
         [Header("게임 밸런스 조정")]
         [Tooltip("다음 웨이브가 시작될 때까지의 대기 시간(초)")]
         [Range(1f, 30f)]
@@ -36,73 +28,59 @@ namespace MyDefenseGame
         [SerializeField] private float _enemySpawnInterval = 0.5f;
 
         [Space(20)]
-
         [Header("UI 세팅")]
-        [SerializeField] private TextMeshProUGUI _timerText;// 화면 상단에 배치할 TextMeshPro-Text 오브젝트
+        [SerializeField] private TextMeshProUGUI _timerText;
 
-        private int _spawnCount = 1;// 한 번에 스폰할 적의 수 (기본 1마리 시작)
+        private int _spawnCount = 1; // 한 번에 스폰할 적의 수 (기본 1마리 시작)
         #endregion
 
         #region Unity Event Method
         private void Start()
         {
-            // 5초 간격으로 점점 늘어나며 스폰하는 코루틴 실행
-            StartCoroutine(SpawnRoutine());
+            // 게임이 시작되면 스폰 시스템 전체를 관리하는 코루틴을 가동합니다.
+            StartCoroutine(SpawnSystemRoutine());
         }
         #endregion
 
         #region Custom Method
         /// <summary>
-        /// 지정된 시간 간격마다 적을 스폰하는 코루틴
+        /// 전체 웨이브 루프와 타이머 UI를 총괄하는 메인 코루틴
         /// </summary>
-        private IEnumerator SpawnRoutine()
+        private IEnumerator SpawnSystemRoutine()
         {
             while (true)
             {
-                // 현재 설정된 spawnCount만큼 반복해서 적을 스폰합니다.
-                for (int i = 0; i < _spawnCount; i++)
-                {
-                    //스폰 포인트에 적 스폰
-                    Instantiate(_enemyPrefab, _spawnPoint.position, Quaternion.identity);
-                    //적 스폰 간격만큼 대기
-                    yield return new WaitForSeconds(_enemySpawnInterval);
-                }
+                // 1. 이번 웨이브의 적들을 스폰합니다.
+                // yield return을 앞에 붙여줌으로써, "스폰이 완전히 끝날 때까지" 이 코루틴도 대기합니다.
+                yield return StartCoroutine(SpawnRoutine(_enemyPrefab, _spawnPoint, _spawnCount, _enemySpawnInterval));
 
-                // 스폰 후 다음 스폰까지 spawnCount(마리 수)를 1 증가시킵니다.
-                // (1마리 스폰 -> 다음엔 2마리 -> 다음엔 3마리 ...)
+                // 2. 스폰이 끝났으므로 다음 웨이브의 스폰 마리 수를 증가시킵니다.
                 _spawnCount++;
 
-                //5초 대기 및 UI 표시 루틴 호출
-                yield return StartCoroutine(CountdownRoutine(_waveSpawnInterval));
+                // 3. 다음 웨이브 시작 전까지 실시간으로 타이머 UI를 깎으며 대기합니다.
+                float cooldownTimer = _waveSpawnInterval;
+                while (cooldownTimer > 0f)
+                {
+                    cooldownTimer -= Time.deltaTime;
+                    // 혹시 0 아래로 내려가면 0으로 고정
+                    cooldownTimer = Mathf.Max(0f, cooldownTimer);
+
+                    _timerText.text = $"Next Wave: {cooldownTimer:F1}s";
+
+                    yield return null; // 매 프레임 대기 (Update처럼 작동)
+                }
             }
         }
 
         /// <summary>
-        /// 지정된 시간만큼 UI에 카운트다운을 표시하고 대기하는 코루틴
+        /// 한 웨이브 내에서 지정된 수만큼 적을 연달아 생성하는 서브 코루틴
         /// </summary>
-        private IEnumerator CountdownRoutine(float timeToWait)
+        private IEnumerator SpawnRoutine(GameObject prefab, Transform spawnPoint, int spawnCount, float spawnInterval)
         {
-            float remainingTime = timeToWait;
-
-            while (remainingTime > 0f)
+            for (int i = 0; i < spawnCount; i++)
             {
-                if (_timerText != null)
-                {
-                    // 소수점 첫째 자리까지 카운트다운 표시
-                    _timerText.text = $"Next Wave: {remainingTime:F1}s";
-                }
-
-                // 매 프레임 흐른 시간(Time.deltaTime)만큼 남은 시간에서 차감
-                remainingTime -= Time.deltaTime;
-
-                // 다음 프레임까지 대기
-                yield return null;
-            }
-
-            // 카운트다운이 정확히 0이 되었을 때의 처리
-            if (_timerText != null)
-            {
-                _timerText.text = "Spawning...";
+                Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                yield return new WaitForSeconds(spawnInterval);
             }
         }
         #endregion

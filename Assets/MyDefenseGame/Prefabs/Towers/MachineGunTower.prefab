@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 2197641733527382607}
   - component: {fileID: 3679072181727783437}
   - component: {fileID: 8955027281503507272}
+  - component: {fileID: 4475232574884639009}
   m_Layer: 10
   m_Name: MachineGunTower
   m_TagString: Untagged
@@ -486,6 +487,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81880865ca332294eac5cfb97a97e84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerTurretRotator
-  _targetDetector: {fileID: 3679072181727783437}
   _turretRotator: {fileID: 3046090141399763553}
   _rotationSpeed: 10
+--- !u!114 &4475232574884639009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152249211276912844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f134693b0b5f4e842849781683bd3cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MachineGunShooter
+  _firePoint: {fileID: 1160466702808206418}
+  _bulletPrefab: {fileID: 3044561100916800402, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
+  _shootInterval: 1

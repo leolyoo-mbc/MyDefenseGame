@@ -3,28 +3,35 @@ using UnityEngine;
 namespace MyDefenseGame
 {
     /// <summary>
-    /// 타워의 공격 범위를 바탕으로 기즈모로 타겟을 감지하는 클래스
+    /// 타워의 공격 범위 내의 타겟을 감지하는 클래스
     /// </summary>
     public class TowerTargetDetector : MonoBehaviour
     {
         #region Variables
         [Tooltip("타워의 공격 범위")]
-        [SerializeField] private float attackRange = 7f;
+        [SerializeField] private float _attackRange = 7f;
 
-        private Transform currentTarget;
+        private Transform _currentTarget;
+        private float _searchInterval = 0.2f;
+        private float _searchCooldown = 0f;
         #endregion
 
         #region Unity Event Method
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;//공격 범위는 빨간색 선으로 표시
-            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.DrawWireSphere(transform.position, _attackRange);
         }
 
         private void Update()
         {
-            // 매 프레임 가장 가까운 적 탐색
-            FindClosestEnemy();
+            //0.2초마다 가장 가까운 적 탐색
+            _searchCooldown = Mathf.Clamp(_searchCooldown - Time.deltaTime, 0f, _searchInterval);
+            if (_searchCooldown <= 0)
+            {
+                FindClosestEnemy();
+                _searchCooldown = _searchInterval;
+            }
         }
         #endregion
 
@@ -32,7 +39,7 @@ namespace MyDefenseGame
         private void FindClosestEnemy()
         {
             //현재 맵 위에 있는 모든 Enemy 태그를 가진 오브젝트들을 배열에 저장
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");//Update에 Find 메서드 오버헤드 발생 가능성
 
             GameObject closestEnemy = null;
             float shortestDistance = Mathf.Infinity;//최소값을 구하기 위해 최초 기준은 '무한대'로 설정
@@ -52,14 +59,14 @@ namespace MyDefenseGame
             }
 
 
-            if (closestEnemy != null && shortestDistance <= attackRange)
+            if (closestEnemy != null && shortestDistance <= _attackRange)
             {
                 //사정거리 안에 있고, 적을 찾았다면 타겟으로 설정
-                currentTarget = closestEnemy.transform;
+                _currentTarget = closestEnemy.transform;
             }
             else
             {
-                currentTarget = null;//아니면 타겟 해제
+                _currentTarget = null;//아니면 타겟 해제
             }
         }
 
@@ -69,7 +76,7 @@ namespace MyDefenseGame
         /// <returns>현재 감지된 타겟의 Transform</returns>
         public Transform GetCurrentTarget()
         {
-            return currentTarget;
+            return _currentTarget;
         }
         #endregion
     }
