@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1584826927771171297}
   - component: {fileID: 7613505877245128060}
   - component: {fileID: 4246352095843364150}
+  - component: {fileID: 6304693820743482491}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -112,3 +113,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6304693820743482491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588933869322667450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3096b3f67589aa84083a525df922d44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileController
+  _hoverMaterial: {fileID: 2100000, guid: 97116cfb37a9bc541a96883748d981d5, type: 2}
+  _towerPrefab: {fileID: 9152249211276912844, guid: 7d0fe3401bea3a147af3cbbfd3eba9b8, type: 3}

@@ -43,13 +43,13 @@ namespace MyDefenseGame
             Vector3 directionToTarget = target.position - _turretRotator.position;
             Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
 
-            // 1. Lerp로 부드럽게 조준하되
+            //1. Lerp로 부드럽게 조준하되
             _turretRotator.rotation = Quaternion.Slerp(_turretRotator.rotation, targetLookRotation, Time.deltaTime * _rotationSpeed);
 
-            // 2. 💡 [실무 필수 체크] 목표 각도와 현재 각도의 차이가 0.01도 이하로 좁혀졌다면?
+            //2. 목표 각도와 현재 각도의 차이가 0.01도 이하로 좁혀졌다면?
             if (Quaternion.Angle(_turretRotator.rotation, targetLookRotation) < 0.01f)
             {
-                // 3. 강제로 목적지 값(100%)을 꽂아넣어 연산을 완전히 끝냅니다.
+                //3. 강제로 목적지 값(100%)을 꽂아넣어 연산을 완전히 끝냅니다.
                 _turretRotator.rotation = targetLookRotation;
             }
         }

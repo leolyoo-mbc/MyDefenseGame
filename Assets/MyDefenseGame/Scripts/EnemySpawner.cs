@@ -16,6 +16,8 @@ namespace MyDefenseGame
 
         [Tooltip("적이 나타날 시작 위치 오브젝트")]
         [SerializeField] private Transform _spawnPoint;
+        [Tooltip("스폰된 적의 이동 목적지 오브젝트")]
+        [SerializeField] private Transform _destination;
 
         [Space(20)]
         [Header("게임 밸런스 조정")]
@@ -39,6 +41,7 @@ namespace MyDefenseGame
         {
             // 게임이 시작되면 스폰 시스템 전체를 관리하는 코루틴을 가동합니다.
             StartCoroutine(SpawnSystemRoutine());
+            _timerText.text = "";
         }
         #endregion
 
@@ -65,7 +68,7 @@ namespace MyDefenseGame
                     // 혹시 0 아래로 내려가면 0으로 고정
                     cooldownTimer = Mathf.Max(0f, cooldownTimer);
 
-                    _timerText.text = $"Next Wave: {cooldownTimer:F1}s";
+                    _timerText.text = $"Next Wave In: {cooldownTimer:F1}s";
 
                     yield return null; // 매 프레임 대기 (Update처럼 작동)
                 }
@@ -79,7 +82,8 @@ namespace MyDefenseGame
         {
             for (int i = 0; i < spawnCount; i++)
             {
-                Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                GameObject spawnedEnemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                spawnedEnemy.GetComponent<EnemyController>().Setup(_destination);//이동 목적지 지정
                 yield return new WaitForSeconds(spawnInterval);
             }
         }

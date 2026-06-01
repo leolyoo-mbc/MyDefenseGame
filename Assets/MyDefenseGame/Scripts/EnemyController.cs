@@ -16,12 +16,6 @@ namespace MyDefenseGame
 
         //유니티 이벤트 함수 구현부
         #region Unity Event Method
-        void Start()
-        {
-            //이동 목적지 오브젝트 찾기
-            _destination = GameObject.FindGameObjectWithTag("End").transform;
-        }
-
         void Update()
         {
             //목적지까지의 방향
@@ -46,10 +40,15 @@ namespace MyDefenseGame
 
         //유저 구현 함수
         #region Custom Method
-        void ArriveTarget()
+        private void ArriveTarget()
         {
             Debug.Log("종점 도착!!!!");
             Destroy(this.gameObject);
+        }
+
+        public void Setup(Transform destination)
+        {
+            _destination = destination;
         }
         #endregion
     }
