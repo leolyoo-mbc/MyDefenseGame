@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace MyDefenseGame
 {
+    /// <summary>
+    /// 타워 건설을 관리하는 클래스
+    /// </summary>
     public class BuildManager : MonoBehaviour
     {
         #region Variables
