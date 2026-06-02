@@ -9,6 +9,9 @@ namespace MySample
         {
             SingletonClass.Instance.number = 10;
             Debug.Log(SingletonClass.Instance.number.ToString());
+
+            SingletonMono.Instance.number = 10;
+            Debug.Log(SingletonMono.Instance.number.ToString());
         }
 
     }
