@@ -30,8 +30,11 @@ namespace MyDefenseGame
             }
         }
 
-        [Header("타워 프리팹 설정")]
+        [Header("머신건 타워 프리팹")]
         [SerializeField] private GameObject _machineGunTowerPrefab;
+        [Header("다른 타워 프리팹")]
+        [SerializeField] private GameObject _anotherTowerPrefab;
+
         public static bool IsTowerSelected { get; private set; } = false;
         private GameObject _selectedTowerPrefab;
         #endregion
@@ -91,6 +94,13 @@ namespace MyDefenseGame
             IsTowerSelected = true;
             Debug.Log("머신건 타워를 선택 하였습니다!!");
             _selectedTowerPrefab = _machineGunTowerPrefab;
+        }
+
+        public void SelectAnotherTower()
+        {
+            IsTowerSelected = true;
+            Debug.Log("다른 타워 선택 하였습니다!!");
+            _selectedTowerPrefab = _anotherTowerPrefab;
         }
         #endregion
     }
