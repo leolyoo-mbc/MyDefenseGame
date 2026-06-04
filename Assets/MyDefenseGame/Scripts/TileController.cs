@@ -26,7 +26,7 @@ namespace MyDefenseGame
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _renderer.material = _hoverMaterial;
+            if (BuildManager.IsTowerSelected) _renderer.material = _hoverMaterial;
         }
 
         public void OnPointerExit(PointerEventData eventData)

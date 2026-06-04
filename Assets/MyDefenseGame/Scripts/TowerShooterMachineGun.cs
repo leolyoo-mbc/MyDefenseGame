@@ -8,7 +8,7 @@ namespace MyDefenseGame
     /// 타겟으로 탄환을 발사하는 클래스
     /// </summary>
     [RequireComponent(typeof(TowerTargetDetector))]
-    public class MachineGunShooter : MonoBehaviour
+    public class TowerShooterMachineGun : MonoBehaviour
     {
         #region Variables
         private TowerTargetDetector _targetDetector;

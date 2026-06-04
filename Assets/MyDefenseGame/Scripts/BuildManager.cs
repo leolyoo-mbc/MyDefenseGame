@@ -32,6 +32,8 @@ namespace MyDefenseGame
 
         [Header("타워 프리팹 설정")]
         [SerializeField] private GameObject _machineGunTowerPrefab;
+        public static bool IsTowerSelected { get; private set; } = false;
+        private GameObject _selectedTowerPrefab;
         #endregion
 
         #region Unity Event Method
@@ -64,14 +66,31 @@ namespace MyDefenseGame
         /// <returns>생성된 타워 GameObject</returns>
         public GameObject BuildTowerOn(Vector3 position)
         {
-            if (_machineGunTowerPrefab == null)
+            if (!IsTowerSelected)
             {
-                Debug.LogError("BuildManager에 머신건 타워 프리팹이 등록되지 않았습니다!");
+                Debug.Log("타워를 설치하지 못했습니다.!!");
+                return null;
+            }
+            else IsTowerSelected = false;
+
+            if (_selectedTowerPrefab == null)
+            {
+                Debug.LogError("설치할 타워 프리팹이 등록되지 않았습니다!");
                 return null;
             }
 
             // 타워 생성 및 반환
             return Instantiate(_machineGunTowerPrefab, position, Quaternion.identity);
+        }
+
+        /// <summary>
+        /// 머신건 타워 선택 버튼을 클릭했을 때 호출될 함수
+        /// </summary>
+        public void SelectMachineGunTower()
+        {
+            IsTowerSelected = true;
+            Debug.Log("머신건 타워를 선택 하였습니다!!");
+            _selectedTowerPrefab = _machineGunTowerPrefab;
         }
         #endregion
     }
