@@ -32,8 +32,8 @@ namespace MyDefenseGame
 
         [Header("머신건 타워 프리팹")]
         [SerializeField] private GameObject _machineGunTowerPrefab;
-        [Header("다른 타워 프리팹")]
-        [SerializeField] private GameObject _anotherTowerPrefab;
+        [Header("미사일 런처 타워 프리팹")]
+        [SerializeField] private GameObject _missileLauncherTowerPrefab;
 
         public static bool IsTowerSelected { get; private set; } = false;
         private GameObject _selectedTowerPrefab;
@@ -83,7 +83,7 @@ namespace MyDefenseGame
             }
 
             // 타워 생성 및 반환
-            return Instantiate(_machineGunTowerPrefab, position, Quaternion.identity);
+            return Instantiate(_selectedTowerPrefab, position, Quaternion.identity);
         }
 
         /// <summary>
@@ -96,11 +96,11 @@ namespace MyDefenseGame
             _selectedTowerPrefab = _machineGunTowerPrefab;
         }
 
-        public void SelectAnotherTower()
+        public void SelectMissileLauncherTower()
         {
             IsTowerSelected = true;
-            Debug.Log("다른 타워 선택 하였습니다!!");
-            _selectedTowerPrefab = _anotherTowerPrefab;
+            Debug.Log("미사일 런처 타워 선택 하였습니다!!");
+            _selectedTowerPrefab = _missileLauncherTowerPrefab;
         }
         #endregion
     }

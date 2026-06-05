@@ -8,12 +8,12 @@ namespace MyDefenseGame
     /// 타겟으로 탄환을 발사하는 클래스
     /// </summary>
     [RequireComponent(typeof(TowerTargetDetector))]
-    public class TowerShooterMachineGun : MonoBehaviour
+    public class TowerShooter : MonoBehaviour
     {
         #region Variables
         private TowerTargetDetector _targetDetector;
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private GameObject _bulletPrefab;
+        [SerializeField] private GameObject _projectilePrefab;
         [SerializeField] private float _shootInterval = 1f;
 
         private float _shootCooldown = 0f;
@@ -51,10 +51,10 @@ namespace MyDefenseGame
             //타겟이 없으면 아래 로직을 타지 않고 리턴
             if (currentTarget == null) return false;
             print("Shoot!!!!!");
-            //발사할때 총구(FirePoint) 위치에 탄환 객체 생성하기
-            GameObject spawnedBullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
+            //발사할때 총구(FirePoint) 위치에 발사체 객체 생성하기
+            GameObject spawnedProjectile = Instantiate(_projectilePrefab, _firePoint.position, _firePoint.rotation);
             //탄환 객체에 타겟 할당
-            spawnedBullet.GetComponent<BulletController>().Setup(currentTarget);
+            spawnedProjectile.GetComponent<ProjectileController>().Setup(currentTarget);
             return true;
         }
         #endregion

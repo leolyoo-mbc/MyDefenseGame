@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2243056377099308880}
   - component: {fileID: 5872478891011488795}
   - component: {fileID: 1260916670412531511}
+  - component: {fileID: 4025226373242443397}
   m_Layer: 0
   m_Name: BulletHitEffect
   m_TagString: Untagged
@@ -4894,3 +4895,15 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &4025226373242443397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6143359989012827457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9b65f735659c74d9c7150ee85c8376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDestroy

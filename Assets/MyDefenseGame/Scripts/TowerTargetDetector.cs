@@ -11,6 +11,9 @@ namespace MyDefenseGame
         [Tooltip("타워의 공격 범위")]
         [SerializeField] private float _attackRange = 7f;
 
+        [Tooltip("감지할 적의 물리 레이어 마스크")]
+        [SerializeField] private LayerMask _enemyLayer;
+
         private Transform _currentTarget;
         private float _searchInterval = 0.2f;
         private float _searchCooldown = 0f;
@@ -38,23 +41,23 @@ namespace MyDefenseGame
         #region Custom Method
         private void FindClosestEnemy()
         {
-            //현재 맵 위에 있는 모든 Enemy 태그를 가진 오브젝트들을 배열에 저장
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");//Update에 Find 메서드 오버헤드 발생 가능성
+            // 1. [변경] 맵 전체를 뒤지지 않고, 타워 위치를 기준으로 사정거리(_attackRange) 내에 있는 특정 레이어(_enemyLayer)의 콜라이더들만 가져옵니다.
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _attackRange, _enemyLayer);
 
             GameObject closestEnemy = null;
             float shortestDistance = Mathf.Infinity;//최소값을 구하기 위해 최초 기준은 '무한대'로 설정
 
             //배열의 Enemy 중 거리가 가장 가까운 Enemy 탐색
-            foreach (GameObject enemy in enemies)
+            foreach (Collider enemyCollider in hitColliders)
             {
-                //타워와 적 사이의 거리
-                float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+                // 타워와 적 사이의 실제 거리 계산
+                float distanceToEnemy = Vector3.Distance(transform.position, enemyCollider.transform.position);
 
-                //방금 재어본 거리가 기존에 알고 있던 '가장 짧은 거리'보다 더 가깝다면?
+                // 방금 재어본 거리가 기존에 알고 있던 '가장 짧은 거리'보다 더 가깝다면?
                 if (distanceToEnemy < shortestDistance)
                 {
                     shortestDistance = distanceToEnemy;//'가장 짧은 거리' 갱신
-                    closestEnemy = enemy;//'가장 가까운 적' 기록
+                    closestEnemy = enemyCollider.gameObject;//'가장 가까운 적' 기록
                 }
             }
 

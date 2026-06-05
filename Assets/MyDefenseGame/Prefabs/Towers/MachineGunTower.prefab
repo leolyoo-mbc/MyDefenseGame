@@ -474,7 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81e854575b29e94ca1c03e0218f1fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerTargetDetector
-  attackRange: 7
+  _attackRange: 7
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &8955027281503507272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,5 +505,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineGunShooter
   _firePoint: {fileID: 1160466702808206418}
-  _bulletPrefab: {fileID: 3044561100916800402, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
+  _projectilePrefab: {fileID: 3044561100916800402, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
   _shootInterval: 1
