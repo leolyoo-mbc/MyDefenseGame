@@ -6,7 +6,7 @@ namespace MyDefenseGame
     {
         #region Variables
         [Tooltip("미사일의 공격 반경")]
-        [SerializeField] private float _splashRadius = 3.5f;
+        [SerializeField] private float _damageRange = 3.5f;
 
         [Tooltip("감지할 적의 물리 레이어 마스크")]
         [SerializeField] private LayerMask _enemyLayer;
@@ -16,7 +16,7 @@ namespace MyDefenseGame
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;//공격 범위는 빨간색 선으로 표시
-            Gizmos.DrawWireSphere(transform.position, _splashRadius);
+            Gizmos.DrawWireSphere(transform.position, _damageRange);
         }
         #endregion
 
@@ -26,7 +26,7 @@ namespace MyDefenseGame
             Debug.Log("미사일 타격! 광역 폭발 발생!");
 
             // 1. 폭발 중심지(미사일 위치)를 기준으로 반경(3.5f) 내의 모든 충돌체를 배열로 가져옵니다.
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _splashRadius, _enemyLayer);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _damageRange, _enemyLayer);
 
             // 2. 배열에 담긴 충돌체들을 하나씩 검사합니다.
             foreach (Collider hitCol in hitColliders)
