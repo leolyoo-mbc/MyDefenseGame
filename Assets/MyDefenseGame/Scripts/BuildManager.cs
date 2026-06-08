@@ -30,13 +30,8 @@ namespace MyDefenseGame
             }
         }
 
-        [Header("머신건 타워 프리팹")]
-        [SerializeField] private GameObject _machineGunTowerPrefab;
-        [Header("미사일 런처 타워 프리팹")]
-        [SerializeField] private GameObject _missileLauncherTowerPrefab;
-
-        public static bool IsTowerSelected { get; private set; } = false;
-        private GameObject _selectedTowerPrefab;
+        private TowerBlueprint _towerSelected;
+        public bool IsTowerSelected => _towerSelected != null;
         #endregion
 
         #region Unity Event Method
@@ -69,38 +64,27 @@ namespace MyDefenseGame
         /// <returns>생성된 타워 GameObject</returns>
         public GameObject BuildTowerOn(Vector3 position)
         {
-            if (!IsTowerSelected)
+            if (_towerSelected == null)
             {
-                Debug.Log("타워를 설치하지 못했습니다.!!");
+                Debug.Log("설치할 타워 프리팹이 등록되지 않았습니다!");
                 return null;
             }
-            else IsTowerSelected = false;
-
-            if (_selectedTowerPrefab == null)
+            //타워 생성
+            if (GameData.money < _towerSelected.cost)
             {
-                Debug.LogError("설치할 타워 프리팹이 등록되지 않았습니다!");
+                Debug.Log("돈이 부족합니다");
                 return null;
             }
-
-            // 타워 생성 및 반환
-            return Instantiate(_selectedTowerPrefab, position, Quaternion.identity);
+            GameObject spawnedTower = Instantiate(_towerSelected.prefab, position, Quaternion.identity);
+            GameData.money -= _towerSelected.cost;
+            Debug.Log($"건설하고 남은돈 : {GameData.money}");
+            _towerSelected = null;//타워 선택 초기화
+            return spawnedTower;
         }
 
-        /// <summary>
-        /// 머신건 타워 선택 버튼을 클릭했을 때 호출될 함수
-        /// </summary>
-        public void SelectMachineGunTower()
+        public void SelectTower(TowerBlueprint blueprint)
         {
-            IsTowerSelected = true;
-            Debug.Log("머신건 타워를 선택 하였습니다!!");
-            _selectedTowerPrefab = _machineGunTowerPrefab;
-        }
-
-        public void SelectMissileLauncherTower()
-        {
-            IsTowerSelected = true;
-            Debug.Log("미사일 런처 타워 선택 하였습니다!!");
-            _selectedTowerPrefab = _missileLauncherTowerPrefab;
+            _towerSelected = blueprint;
         }
         #endregion
     }

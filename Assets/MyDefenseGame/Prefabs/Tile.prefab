@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7613505877245128060}
   - component: {fileID: 4246352095843364150}
   - component: {fileID: 6304693820743482491}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,4 +126,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileController
   _hoverMaterial: {fileID: 2100000, guid: 97116cfb37a9bc541a96883748d981d5, type: 2}
-  _towerPrefab: {fileID: 9152249211276912844, guid: 7d0fe3401bea3a147af3cbbfd3eba9b8, type: 3}

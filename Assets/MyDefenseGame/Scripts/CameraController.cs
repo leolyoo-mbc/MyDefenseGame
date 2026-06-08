@@ -1,21 +1,13 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 namespace MyDefenseGame
 {
     public class CameraController : MonoBehaviour
     {
         #region Variables
-        [Tooltip("UI/Navigate 인풋 액션 레퍼런스")]
-        [SerializeField] private InputActionReference _navigateAction;
-        [Tooltip("UI/Point 인풋 액션 레퍼런스")]
-        [SerializeField] private InputActionReference _pointAction;
-        [Tooltip("UI/ScrollWheel 인풋 액션 레퍼런스")]
-        [SerializeField] private InputActionReference _scrollWheelAction;
-        [Tooltip("Cancel 인풋 액션 레퍼런스")]
-        [SerializeField] private InputActionReference _cancelAction;
-
         [Tooltip("카메라 이동 속도")]
         [SerializeField] private float _speed = 10f;
         [Tooltip("화면 가장자리 기준 폭")]
@@ -33,6 +25,10 @@ namespace MyDefenseGame
 
         private Camera _childCamera;
         private bool _isCameraControlEnabled = true;
+
+        private Vector2 _navigateInputDirection = Vector2.zero;
+        private Vector2 _pointerPosition = Vector2.zero;
+        private Vector2 _scrollInputDirection = Vector2.zero;
         #endregion
 
         #region Unity Event Method
@@ -55,11 +51,23 @@ namespace MyDefenseGame
 
         private void Update()
         {
-            if (_cancelAction.action.WasPressedThisFrame()) _isCameraControlEnabled = !_isCameraControlEnabled;
             if (!_isCameraControlEnabled) return;
+            if (!Application.isFocused) return;
+
+            Vector2 edgeMoveInput = Vector2.zero;
+
+            //포인터(마우스/터치/펜)가 화면 내부에 안전하게 있을 때만 에지 가중치 계산
+            if (_pointerPosition.x >= 0 && _pointerPosition.y >= 0 && _pointerPosition.x <= Screen.width && _pointerPosition.y <= Screen.height)
+            {
+                if (_pointerPosition.x <= _edgeThreshold) edgeMoveInput.x = -1f;
+                else if (_pointerPosition.x >= Screen.width - _edgeThreshold) edgeMoveInput.x = 1f;
+
+                if (_pointerPosition.y <= _edgeThreshold) edgeMoveInput.y = -1f;
+                else if (_pointerPosition.y >= Screen.height - _edgeThreshold) edgeMoveInput.y = 1f;
+            }
 
             //각 입력 소스로부터 수집한 가중치 벡터를 합산 (같이 누르면 더 빠르게 이동하도록, 반대로 누르면 안 움직이게)
-            Vector2 combinedInput = GetPointActionInput() + GetNavigateActionInput();
+            Vector2 combinedInput = _navigateInputDirection + edgeMoveInput.normalized;
 
             if (combinedInput != Vector2.zero)
             {
@@ -70,8 +78,7 @@ namespace MyDefenseGame
 
             //줌 처리
             if (_childCamera == null) return;
-            //휠의 y축 입력 값(-1 또는 1)을 읽어옵니다.
-            float scrollDelta = _scrollWheelAction.action.ReadValue<Vector2>().y;
+            float scrollDelta = _scrollInputDirection.y;
 
             // 1. 이번 프레임에 전진/후진할 '거리'를 계산합니다. (위로 굴리면 양수, 아래는 음수)
             float zoomStep = scrollDelta * _zoomSpeed * Time.deltaTime;
@@ -89,39 +96,24 @@ namespace MyDefenseGame
         #endregion
 
         #region CustomMethod
-        /// <summary>
-        /// 포인터의 위치를 기반으로 화면 가장자리 스크롤 입력 값을 계산하는 메서드
-        /// </summary>
-        /// <returns>
-        /// 화면 내부 경계 조건에 따라 계산된 정규화된 이동 방향 벡터(Vector2)를 반환 
-        /// 마우스가 화면 영역을 완전히 벗어난 경우 Vector2.zero를 반환
-        /// </returns>
-        private Vector2 GetPointActionInput()
+        public void OnNavigate(InputAction.CallbackContext context)
         {
-            Vector2 input = Vector2.zero;
-            Vector2 pointAmt = _pointAction.action.ReadValue<Vector2>();
-
-            if (pointAmt.x < 0 || pointAmt.y < 0 || pointAmt.x > Screen.width || pointAmt.y > Screen.height) return input;
-
-            // 순수한 가중치(-1, 1)만 대입
-            if (pointAmt.x <= _edgeThreshold) input.x = -1f;
-            else if (pointAmt.x >= Screen.width - _edgeThreshold) input.x = 1f;
-
-            if (pointAmt.y <= _edgeThreshold) input.y = -1f;
-            else if (pointAmt.y >= Screen.height - _edgeThreshold) input.y = 1f;
-
-            return input.normalized;
+            _navigateInputDirection = context.ReadValue<Vector2>();
         }
 
-        /// <summary>
-        /// 키보드나 게임패드 등의 내비게이션 조작을 통한 이동 입력 값을 가져오는 메서드
-        /// </summary>
-        /// <returns>
-        /// Input System의 Navigate 액션으로부터 읽어온 -1에서 1 사이의 순수 Vector2 입력 값
-        /// </returns>
-        private Vector2 GetNavigateActionInput()
+        public void OnPoint(InputAction.CallbackContext context)
         {
-            return _navigateAction.action.ReadValue<Vector2>();
+            _pointerPosition = context.ReadValue<Vector2>();
+        }
+
+        public void OnScrollWheel(InputAction.CallbackContext context)
+        {
+            _scrollInputDirection = context.ReadValue<Vector2>();
+        }
+
+        public void OnToggleControl(InputAction.CallbackContext context)
+        {
+            if (context.performed) _isCameraControlEnabled = !_isCameraControlEnabled;
         }
         #endregion
     }

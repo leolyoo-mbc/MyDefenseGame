@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2423432}
+  - component: {fileID: 2423433}
   m_Layer: 5
   m_Name: BuildMenu
   m_TagString: Untagged
@@ -156,6 +157,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 330, y: 190}
   m_Pivot: {x: 1, y: 0}
+--- !u!114 &2423433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4aee12dd02a2cd42a85c39a8d813acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildMenu
+  _machineGunTower:
+    prefab: {fileID: 9152249211276912844, guid: 7d0fe3401bea3a147af3cbbfd3eba9b8, type: 3}
+    cost: 100
+  _missileLauncherTower:
+    prefab: {fileID: 3149007405170449490, guid: c2b2fc62fc4515942b48fc548c0fe6b3, type: 3}
+    cost: 250
 --- !u!1001 &3730427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -590,7 +609,6 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -716,22 +734,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &330585548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.PhysicsRaycaster
-  m_EventMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_MaxRayIntersections: 0
 --- !u!4 &355366772 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1173957588698093045, guid: 9945dbb888aca0e42ac2f075f07155d1, type: 3}
@@ -959,9 +961,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 970302690}
-        m_TargetAssemblyTypeName: MyDefenseGame.BuildManager, Assembly-CSharp
-        m_MethodName: SelectMissileLauncherTower
+      - m_Target: {fileID: 2423433}
+        m_TargetAssemblyTypeName: BuildMenu, Assembly-CSharp
+        m_MethodName: OnSelectTowerMissileLauncher
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1607,9 +1609,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 970302690}
-        m_TargetAssemblyTypeName: MyDefenseGame.BuildManager, Assembly-CSharp
-        m_MethodName: SelectMachineGunTower
+      - m_Target: {fileID: 2423433}
+        m_TargetAssemblyTypeName: BuildMenu, Assembly-CSharp
+        m_MethodName: OnSelectTowerMachineGun
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1706,8 +1708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a101613ebf47924dacaa3c35a0016be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.BuildManager
-  _machineGunTowerPrefab: {fileID: 9152249211276912844, guid: 7d0fe3401bea3a147af3cbbfd3eba9b8, type: 3}
-  _missileLauncherTowerPrefab: {fileID: 3149007405170449490, guid: c2b2fc62fc4515942b48fc548c0fe6b3, type: 3}
 --- !u!4 &970302691
 Transform:
   m_ObjectHideFlags: 0
@@ -1845,6 +1845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1134990378}
   - component: {fileID: 1134990379}
+  - component: {fileID: 1134990380}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -1880,15 +1881,105 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0975b06837ea843b2fa0f7eb24bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.CameraController
-  _navigateAction: {fileID: -8784545083839296357, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _pointAction: {fileID: -1654692200621890270, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _scrollWheelAction: {fileID: 6240969308177333660, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _cancelAction: {fileID: 7727032971491509709, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _speed: 10
   _edgeThreshold: 10
   _zoomSpeed: 30
   _minCameraHeight: 5
   _fallbackMaxZoomDistance: 30
+--- !u!114 &1134990380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134990377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 36c368237b7201f489d87871f61e2108, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1134990379}
+        m_TargetAssemblyTypeName: MyDefenseGame.CameraController, Assembly-CSharp
+        m_MethodName: OnNavigate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ec0ff928-de7f-4e86-ab0b-f9098e75a5f0
+    m_ActionName: 'Camera/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1134990379}
+        m_TargetAssemblyTypeName: MyDefenseGame.CameraController, Assembly-CSharp
+        m_MethodName: OnPoint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3e4ab642-9974-48b6-b312-e19d35470e84
+    m_ActionName: 'Camera/Point[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1134990379}
+        m_TargetAssemblyTypeName: MyDefenseGame.CameraController, Assembly-CSharp
+        m_MethodName: OnScrollWheel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 811ef1a2-9646-4f87-8124-a9d9658d65f8
+    m_ActionName: 'Camera/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1134990379}
+        m_TargetAssemblyTypeName: MyDefenseGame.CameraController, Assembly-CSharp
+        m_MethodName: OnToggleControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cff8fb03-7d39-4717-8e0f-aace21f22862
+    m_ActionName: 'Camera/ToggleControl[/Keyboard/escape]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Camera
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &1155616931 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1173957588698093045, guid: 9945dbb888aca0e42ac2f075f07155d1, type: 3}
@@ -2260,6 +2351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1567999006}
+  - component: {fileID: 1567999007}
   m_Layer: 0
   m_Name: Tiles
   m_TagString: Untagged
@@ -2292,6 +2384,22 @@ Transform:
   - {fileID: 355366772}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567999007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567999005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ccf3e504a307f489b3178edb8f06ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TileInputManager
+  _tileLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _maxRayDistance: 1000
 --- !u!1001 &1588193574
 PrefabInstance:
   m_ObjectHideFlags: 0

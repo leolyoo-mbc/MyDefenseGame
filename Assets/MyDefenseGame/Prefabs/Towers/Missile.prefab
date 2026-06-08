@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.MissileController
   _speed: 50
-  _hitEffectPrefab: {fileID: 7590557747938950605, guid: 2d8895f2c40b45747b2ecd0d4ec1c7d4, type: 3}
-  _splashRadius: 3.5
+  _hitEffectPrefab: {fileID: 7914287321227601064, guid: 100c90e771239c44f888fd6faef67d53, type: 3}
+  _damageRange: 3.5
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 8
