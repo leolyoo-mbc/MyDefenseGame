@@ -7,11 +7,16 @@ namespace MyDefenseGame
     /// </summary>
     public class BulletController : ProjectileController
     {
+        #region Variables
+        [SerializeField] private int _damage = 50;
+        #endregion
+
         #region Custom Method
-        protected override void ApplyDamage()
+        protected override void ApplyDamage(GameObject target)
         {
             Debug.Log("Hit Target!!!");
-            if (_target != null) Destroy(_target.gameObject);
+            if (_target == null) return;
+            if (target.TryGetComponent(out EnemyController enemy)) enemy.TakeDamage(_damage);
         }
         #endregion
     }

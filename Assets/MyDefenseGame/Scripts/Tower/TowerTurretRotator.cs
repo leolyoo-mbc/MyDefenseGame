@@ -28,7 +28,7 @@ namespace MyDefenseGame
             if (_targetDetector.GetCurrentTarget() != null)
             {
                 //타겟으로 터렛을 회전
-                RotateTurretToTarget(_targetDetector.GetCurrentTarget());
+                RotateTurretToTarget(_targetDetector.GetCurrentTarget().transform);
             }
         }
         #endregion

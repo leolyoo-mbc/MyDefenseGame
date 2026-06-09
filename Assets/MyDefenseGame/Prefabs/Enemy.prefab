@@ -121,8 +121,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 713169930775723990}
-  - component: {fileID: 5819826674843282451}
   - component: {fileID: 4803390409252823384}
+  - component: {fileID: 5819826674843282451}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
@@ -146,19 +146,6 @@ Transform:
   - {fileID: 8819027358666756355}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5819826674843282451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5648449063039846298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c37b7f09fc833864b9372bbcafb64072, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  _speed: 10
 --- !u!135 &4803390409252823384
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -180,3 +167,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5819826674843282451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648449063039846298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37b7f09fc833864b9372bbcafb64072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
+  _speed: 10
+  _maxHp: 100
+  _reward: 50
+  _deathEffectPrefab: {fileID: 6970785721362320762, guid: 6c99a4c8bd7f5ea45a338980d15beba6, type: 3}

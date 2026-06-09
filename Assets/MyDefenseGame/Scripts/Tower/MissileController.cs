@@ -10,6 +10,8 @@ namespace MyDefenseGame
 
         [Tooltip("감지할 적의 물리 레이어 마스크")]
         [SerializeField] private LayerMask _enemyLayer;
+
+        [SerializeField] private int _damage = 50;
         #endregion
 
         #region Unity Event Method
@@ -21,7 +23,7 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        protected override void ApplyDamage()
+        protected override void ApplyDamage(GameObject target)
         {
             Debug.Log("미사일 타격! 광역 폭발 발생!");
 
@@ -35,7 +37,7 @@ namespace MyDefenseGame
                 if (hitCol.TryGetComponent(out EnemyController enemy))
                 {
                     // [임시 처리] 적을 즉사(Kill) 시킵니다.
-                    Destroy(enemy.gameObject);
+                    enemy.TakeDamage(_damage);
                 }
             }
         }

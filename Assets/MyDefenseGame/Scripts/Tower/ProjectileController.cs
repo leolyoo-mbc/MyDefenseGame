@@ -8,7 +8,7 @@ namespace MyDefenseGame
     public abstract class ProjectileController : MonoBehaviour
     {
         #region Variables
-        protected Transform _target;
+        protected GameObject _target;
 
         [Tooltip("발사체의 속도")]
         [SerializeField] protected float _speed;
@@ -26,7 +26,7 @@ namespace MyDefenseGame
                 return;
             }
 
-            Vector3 targetPosition = _target.position;//이번 프레임에 널세이프하도록 로컬변수에 저장
+            Vector3 targetPosition = _target.transform.position;//이번 프레임에 널세이프하도록 로컬변수에 저장
             Vector3 direction = targetPosition - transform.position;//타겟을 향한 방향 벡터
             Quaternion lookRotation = Quaternion.LookRotation(direction);//타겟을 바라보는 회전 값
 
@@ -51,8 +51,8 @@ namespace MyDefenseGame
         /// <summary>
         /// 발사체의 타겟을 초기화하는 메서드
         /// </summary>
-        /// <param name="target">발사체가 향할 타겟의 Transform</param>
-        public virtual void Setup(Transform target)
+        /// <param name="target">발사체가 향할 타겟의 GameObject</param>
+        public virtual void Setup(GameObject target)
         {
             _target = target;
         }
@@ -66,7 +66,7 @@ namespace MyDefenseGame
             if (_hitEffectPrefab != null) Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
 
             //2. 고유 기능: 자식 클래스가 구현한 실제 공격 로직 호출
-            ApplyDamage();
+            ApplyDamage(_target);
 
             //3. 공통 기능: 내 자신(발사체) 파괴
             Destroy(gameObject);
@@ -75,7 +75,7 @@ namespace MyDefenseGame
         /// <summary>
         /// 자식 클래스가 반드시 구현해야 하는 '실제 데미지/적 파괴' 로직
         /// </summary>
-        protected abstract void ApplyDamage();
+        protected abstract void ApplyDamage(GameObject target);
         #endregion
     }
 }

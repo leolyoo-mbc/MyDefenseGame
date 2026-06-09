@@ -14,7 +14,7 @@ namespace MyDefenseGame
         [Tooltip("감지할 적의 물리 레이어 마스크")]
         [SerializeField] private LayerMask _enemyLayer;
 
-        private Transform _currentTarget;
+        private GameObject _currentTarget;
         private float _searchInterval = 0.2f;
         private float _searchCooldown = 0f;
         #endregion
@@ -65,7 +65,7 @@ namespace MyDefenseGame
             if (closestEnemy != null && shortestDistance <= _attackRange)
             {
                 //사정거리 안에 있고, 적을 찾았다면 타겟으로 설정
-                _currentTarget = closestEnemy.transform;
+                _currentTarget = closestEnemy;
             }
             else
             {
@@ -76,8 +76,8 @@ namespace MyDefenseGame
         /// <summary>
         /// 현재 감지된 타겟을 반환하는 메서드
         /// </summary>
-        /// <returns>현재 감지된 타겟의 Transform</returns>
-        public Transform GetCurrentTarget()
+        /// <returns>현재 감지된 타겟의 GameObject</returns>
+        public GameObject GetCurrentTarget()
         {
             return _currentTarget;
         }

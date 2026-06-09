@@ -70,14 +70,14 @@ namespace MyDefenseGame
                 return null;
             }
             //타워 생성
-            if (GameData.money < _towerSelected.cost)
+            if (GameData.Money < _towerSelected.cost)
             {
                 Debug.Log("돈이 부족합니다");
                 return null;
             }
             GameObject spawnedTower = Instantiate(_towerSelected.prefab, position, Quaternion.identity);
-            GameData.money -= _towerSelected.cost;
-            Debug.Log($"건설하고 남은돈 : {GameData.money}");
+            GameData.Money -= _towerSelected.cost;
+            Debug.Log($"건설하고 남은돈 : {GameData.Money}");
             _towerSelected = null;//타워 선택 초기화
             return spawnedTower;
         }

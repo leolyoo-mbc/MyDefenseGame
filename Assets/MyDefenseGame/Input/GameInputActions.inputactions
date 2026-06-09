@@ -1,9 +1,9 @@
 {
     "version": 1,
-    "name": "CameraActions",
+    "name": "GameInputActions",
     "maps": [
         {
-            "name": "Camera",
+            "name": "Gameplay",
             "id": "188aeb05-e743-4e3d-86f4-b89f98301a89",
             "actions": [
                 {
@@ -37,6 +37,15 @@
                     "name": "ToggleControl",
                     "type": "Button",
                     "id": "cff8fb03-7d39-4717-8e0f-aace21f22862",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AddCheatGold",
+                    "type": "Button",
+                    "id": "beb41dd1-f335-4f32-aae8-0c0749e4a918",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -142,6 +151,17 @@
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "085707a8-fc0a-4067-a8ab-7e19a2f56b28",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "AddCheatGold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
