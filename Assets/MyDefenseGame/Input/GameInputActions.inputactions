@@ -34,7 +34,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleControl",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "cff8fb03-7d39-4717-8e0f-aace21f22862",
                     "expectedControlType": "",
@@ -43,9 +43,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AddCheatGold",
+                    "name": "CheatGold",
                     "type": "Button",
                     "id": "beb41dd1-f335-4f32-aae8-0c0749e4a918",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CheatGameOver",
+                    "type": "Button",
+                    "id": "dbee6776-4f06-47c7-af1b-f3103e33e71f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -159,7 +168,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "AddCheatGold",
+                    "action": "CheatGold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -203,7 +212,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "ToggleControl",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acf92228-4f4d-4301-8bc8-65669ef05114",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "CheatGameOver",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -6,9 +6,14 @@ namespace MyDefenseGame
     public class UIManager : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private TextMeshProUGUI moneyText;
-        [SerializeField] private TextMeshProUGUI _livesText;
-        [SerializeField] private TextMeshProUGUI _roundsText;
+        [SerializeField] private TMP_Text moneyText;
+        [SerializeField] private TMP_Text _livesText;
+        [SerializeField] private TMP_Text _roundsText;
+
+        [Header("UI Panels")]
+        [SerializeField] private GameObject _gameOverPanel;
+        [SerializeField] private TMP_Text _survivedRoundsText;
+        [SerializeField] private GameObject _pausePanel;
         #endregion
 
         #region Unity Event Method
@@ -18,6 +23,9 @@ namespace MyDefenseGame
             GameData.OnMoneyChanged += UpdateMoneyUI;
             GameData.OnLivesChanged += UpdateLivesUI;
             GameData.OnRoundsChanged += UpdateRoundsUI;
+
+            GameManager.OnGameOver += ShowGameOverUI;
+            GameManager.OnPause += TogglePauseUI;
         }
 
         private void OnDisable()
@@ -26,6 +34,9 @@ namespace MyDefenseGame
             GameData.OnMoneyChanged -= UpdateMoneyUI;
             GameData.OnLivesChanged -= UpdateLivesUI;
             GameData.OnRoundsChanged -= UpdateRoundsUI;
+
+            GameManager.OnGameOver -= ShowGameOverUI;
+            GameManager.OnPause -= TogglePauseUI;
         }
 
         private void Start()
@@ -34,6 +45,9 @@ namespace MyDefenseGame
             UpdateMoneyUI();
             UpdateLivesUI();
             UpdateRoundsUI();
+
+            if (_gameOverPanel != null) _gameOverPanel.SetActive(false);
+            if (_pausePanel != null) _pausePanel.SetActive(false);
         }
         #endregion
 
@@ -55,6 +69,32 @@ namespace MyDefenseGame
         {
             // 라운드의 경우 단순히 숫자만 표시할 수도 있고, 꾸밀 수도 있습니다.
             if (_roundsText != null) _roundsText.text = $"Round: {GameData.Rounds}";
+        }
+
+        public void OnClickRestart()
+        {
+            Debug.Log("Run RESTART");
+        }
+
+        public void OnClickMainMenu()
+        {
+            Debug.Log("Goto Menu");
+        }
+
+        private void ShowGameOverUI()
+        {
+            if (_gameOverPanel != null)
+            {
+                _survivedRoundsText.text = $"{GameData.Rounds} ROUNDS SURVIVED";
+                _gameOverPanel.SetActive(true);
+            }
+        }
+
+        private void TogglePauseUI()
+        {
+            // GameManager가 정지 상태(true)면 켜지고, 해제 상태(false)면 꺼집니다.
+            if (_pausePanel != null) _pausePanel.SetActive(GameManager.IsPaused);
+
         }
         #endregion
     }
