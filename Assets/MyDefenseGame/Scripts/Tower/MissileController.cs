@@ -11,7 +11,7 @@ namespace MyDefenseGame
         [Tooltip("감지할 적의 물리 레이어 마스크")]
         [SerializeField] private LayerMask _enemyLayer;
 
-        [SerializeField] private int _damage = 50;
+        [SerializeField] private float _damage = 50f;
         #endregion
 
         #region Unity Event Method
@@ -23,7 +23,7 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        protected override void ApplyDamage(GameObject target)
+        protected override void ApplyDamage(IDamageable target)
         {
             Debug.Log("미사일 타격! 광역 폭발 발생!");
 
@@ -33,10 +33,9 @@ namespace MyDefenseGame
             // 2. 배열에 담긴 충돌체들을 하나씩 검사합니다.
             foreach (Collider hitCol in hitColliders)
             {
-                // 3. 해당 충돌체가 '적(Enemy)'인지 확인합니다. (태그를 사용한 예시)
-                if (hitCol.TryGetComponent(out EnemyController enemy))
+                // 3. 해당 충돌체에 데미지를 줄 수 있는지 확인합니다.
+                if (hitCol.TryGetComponent(out IDamageable enemy))
                 {
-                    // [임시 처리] 적을 즉사(Kill) 시킵니다.
                     enemy.TakeDamage(_damage);
                 }
             }

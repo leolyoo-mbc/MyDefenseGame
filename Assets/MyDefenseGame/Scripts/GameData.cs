@@ -19,6 +19,32 @@ namespace MyDefenseGame
                 OnMoneyChanged?.Invoke();
             }
         }
+
+        // 2. 목숨 (라이프) 데이터 - 초기값 10
+        public static int lives = 10;
+        public static event Action OnLivesChanged;
+        public static int Lives
+        {
+            get => lives;
+            set
+            {
+                lives = value;
+                OnLivesChanged?.Invoke();
+            }
+        }
+
+        // 3. 라운드 (웨이브) 데이터 - 초기값 0
+        public static int rounds = 0;
+        public static event Action OnRoundsChanged;
+        public static int Rounds
+        {
+            get => rounds;
+            set
+            {
+                rounds = value;
+                OnRoundsChanged?.Invoke();
+            }
+        }
         #endregion
     }
 }

@@ -80,6 +80,7 @@ namespace MyDefenseGame
         /// </summary>
         private IEnumerator SpawnRoutine(GameObject prefab, Transform spawnPoint, int spawnCount, float spawnInterval)
         {
+            GameData.Rounds = _spawnCount;
             for (int i = 0; i < spawnCount; i++)
             {
                 GameObject spawnedEnemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);

@@ -1,40 +1,57 @@
-using MyDefenseGame;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MyDefenseGame
 {
+    /// <summary>
+    /// 타워 데이터와 그에 대응하는 UI 컴포넌트들을 하나의 세트로 묶어주는 클래스
+    /// </summary>
+    [System.Serializable]
+    public class TowerMenuSlot
+    {
+        public TowerBlueprint blueprint; // 타워 데이터 (ScriptableObject)
+        public TMP_Text costText;        // 가격을 표시할 텍스트 컴포넌트
+        public Button selectButton;      // 해당 타워를 선택하는 버튼 컴포넌트
+    }
 
     public class BuildMenu : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private TowerBlueprint _machineGunTower;
-        [SerializeField] private TowerBlueprint _missileLauncherTower;
-        [SerializeField] private TowerBlueprint _laserTower;
+        [SerializeField] private TowerMenuSlot[] _towerSlots;
+        #endregion
+
+        #region Unity Event Method
+        private void Start()
+        {
+            //배열에 등록된 모든 타워 슬롯을 순회하며 한 번에 세팅
+            foreach (TowerMenuSlot slot in _towerSlots)
+            {
+                //타워 데이터가 할당되지 않은 빈 슬롯이라면 건너뜀 (안전 장치)
+                if (slot.blueprint == null) continue;
+
+                //텍스트 초기화
+                if (slot.costText != null)
+                {
+                    slot.costText.text = $"{slot.blueprint.cost}";
+                }
+
+                //버튼 이벤트 동적 연결 (가장 중요한 부분)
+                if (slot.selectButton != null)
+                {
+                    //기존에 인스펙터 창에서 수동으로 연결했던 OnClick 이벤트를 코드로 자동화
+                    //버튼을 누르면 해당 슬롯의 blueprint를 SelectTower 함수로 전달하도록 설정
+                    slot.selectButton.onClick.AddListener(() => SelectTower(slot.blueprint));
+                }
+            }
+        }
         #endregion
 
         #region Custom Method
-        public void OnSelectTowerMachineGun()
-        {
-            SelectTower(_machineGunTower);
-            Debug.Log("머신건 타워를 선택 하였습니다!!");
-
-        }
-
-        public void OnSelectTowerMissileLauncher()
-        {
-            SelectTower(_missileLauncherTower);
-            Debug.Log("미사일 런처 타워 선택 하였습니다!!");
-        }
-
-        public void OnSelectTowerLaser()
-        {
-            SelectTower(_laserTower);
-            Debug.Log("레이저 타워 선택 하였습니다!!");
-        }
-
         private void SelectTower(TowerBlueprint blueprint)
         {
             BuildManager.Instance.SelectTower(blueprint);
+            Debug.Log($"{blueprint.prefab.ToString()} 선택 하였습니다!!");
         }
         #endregion
     }

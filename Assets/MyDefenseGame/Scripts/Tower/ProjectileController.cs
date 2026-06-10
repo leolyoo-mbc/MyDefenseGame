@@ -8,7 +8,7 @@ namespace MyDefenseGame
     public abstract class ProjectileController : MonoBehaviour
     {
         #region Variables
-        protected GameObject _target;
+        protected EnemyController _target;
 
         [Tooltip("발사체의 속도")]
         [SerializeField] protected float _speed;
@@ -51,8 +51,8 @@ namespace MyDefenseGame
         /// <summary>
         /// 발사체의 타겟을 초기화하는 메서드
         /// </summary>
-        /// <param name="target">발사체가 향할 타겟의 GameObject</param>
-        public virtual void Setup(GameObject target)
+        /// <param name="target">발사체가 향할 타겟</param>
+        public virtual void Setup(EnemyController target)
         {
             _target = target;
         }
@@ -75,7 +75,7 @@ namespace MyDefenseGame
         /// <summary>
         /// 자식 클래스가 반드시 구현해야 하는 '실제 데미지/적 파괴' 로직
         /// </summary>
-        protected abstract void ApplyDamage(GameObject target);
+        protected abstract void ApplyDamage(IDamageable target);
         #endregion
     }
 }

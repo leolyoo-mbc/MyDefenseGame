@@ -47,7 +47,7 @@ namespace MyDefenseGame
         /// <returns>발사 성공 여부 bool</returns>
         private bool TryShoot()
         {
-            GameObject currentTarget = _targetDetector.GetCurrentTarget();
+            EnemyController currentTarget = _targetDetector.GetCurrentTarget();
             //타겟이 없으면 아래 로직을 타지 않고 리턴
             if (currentTarget == null) return false;
             print("Shoot!!!!!");

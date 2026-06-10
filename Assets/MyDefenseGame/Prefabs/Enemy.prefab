@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37b7f09fc833864b9372bbcafb64072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  _speed: 10
+  _speed: 5
   _maxHp: 100
   _reward: 50
   _deathEffectPrefab: {fileID: 6970785721362320762, guid: 6c99a4c8bd7f5ea45a338980d15beba6, type: 3}
