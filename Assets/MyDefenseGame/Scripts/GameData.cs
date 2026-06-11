@@ -7,7 +7,6 @@ namespace MyDefenseGame
     {
         #region Variables
         public static int money = 400;
-
         public static event Action OnMoneyChanged;
         public static int Money
         {

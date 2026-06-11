@@ -19,18 +19,19 @@ namespace MyDefenseGame
         #region Unity Event Method
         private void OnEnable()
         {
-            // GameData의 돈이 바뀌면 UpdateMoneyUI 메서드를 실행하겠다고 등록
+            //GameData의 이벤트 구독
             GameData.OnMoneyChanged += UpdateMoneyUI;
             GameData.OnLivesChanged += UpdateLivesUI;
             GameData.OnRoundsChanged += UpdateRoundsUI;
 
+            //GameManager의 이벤트 구독
             GameManager.OnGameOver += ShowGameOverUI;
             GameManager.OnPause += TogglePauseUI;
         }
 
         private void OnDisable()
         {
-            // 오브젝트가 꺼질 때는 등록 해제 (메모리 누수 방지)
+            // 오브젝트가 꺼질 때는 구독 해제 (메모리 누수 방지)
             GameData.OnMoneyChanged -= UpdateMoneyUI;
             GameData.OnLivesChanged -= UpdateLivesUI;
             GameData.OnRoundsChanged -= UpdateRoundsUI;
@@ -41,7 +42,7 @@ namespace MyDefenseGame
 
         private void Start()
         {
-            // 게임 시작 시 3개의 텍스트를 한 번에 초기화합니다.
+            // 게임 시작 시 UI 초기화
             UpdateMoneyUI();
             UpdateLivesUI();
             UpdateRoundsUI();

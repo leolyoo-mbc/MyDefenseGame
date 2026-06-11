@@ -36,6 +36,7 @@ namespace MyDefenseGame
 
             //목적지까지의 거리
             float distanceToDestination = Vector3.Distance(_destination.position, transform.position);
+
             //이번 프레임에 원래 이동해야 할 거리
             float moveDistance;
 
@@ -86,7 +87,7 @@ namespace MyDefenseGame
         public void ApplySlow(float slowRate)
         {
             //이미 슬로우 상태이면 더 큰 슬로우 비율 대입
-            if (_isSlowed) _currentSlowRate = _currentSlowRate < slowRate ? slowRate : _currentSlowRate;
+            if (_isSlowed) _currentSlowRate = slowRate > _currentSlowRate ? slowRate : _currentSlowRate;
             else
             {
                 _isSlowed = true;

@@ -11,14 +11,17 @@ namespace MyDefenseGame
         [SerializeField] private Transform _firePoint;
         [Header("Laser Settings")]
         [SerializeField] private LineRenderer _lineRenderer; // 레이저 빔 시각화용
-        [SerializeField] private float _damagePerSecond = 30f;  // 초당 데미지 (DPS)
-        [SerializeField] private float _slowRate = 0.4f;  // 초당 데미지 (DPS)
+        [SerializeField] private float _damagePerSecond = 30f;
+        [SerializeField] private float _slowRate = 0.4f;
+
         [SerializeField] private float _bonusDamage = 15f;
         [SerializeField] private float _bonusDamageTime = 1.5f;
         private EnemyController _lastTarget;  // 직전 프레임에 때렸던 타겟 기억
         private float _attackDuration = 0f;   // 동일한 타겟을 공격한 누적 시간
+
         // 레이저 타격 이펙트 (타겟에 맞는 부위에 생성할 파티클)
-        // [SerializeField] private GameObject _laserHitEffect; 
+        [SerializeField] private ParticleSystem _laserHitEffect;
+        [SerializeField] private Light _laserLight;
         #endregion
 
         #region Unity Event Method
@@ -26,7 +29,7 @@ namespace MyDefenseGame
         {
             _targetDetector = GetComponent<TowerTargetDetector>();
             // 시작할 때는 레이저를 꺼둡니다.
-            _lineRenderer.enabled = false;
+            HideLaser();
         }
 
         private void Update()
@@ -53,7 +56,7 @@ namespace MyDefenseGame
             else
             {
                 // 타겟이 없으면 레이저를 끕니다.
-                if (_lineRenderer.enabled) _lineRenderer.enabled = false;
+                HideLaser();
                 _attackDuration = 0f; // 누적 시간 초기화
                 _lastTarget = null;   // 기억하던 타겟 삭제
             }
@@ -63,15 +66,7 @@ namespace MyDefenseGame
         #region Custom Method
         private void ShootLaser(EnemyController target)
         {
-            // 1. 레이저 시각화 켜기
-            if (!_lineRenderer.enabled)
-            {
-                _lineRenderer.enabled = true;
-            }
-
-            // 2. LineRenderer의 시작점(총구)과 끝점(타겟) 위치 갱신
-            _lineRenderer.SetPosition(0, _firePoint.position);
-            _lineRenderer.SetPosition(1, target.transform.position);
+            VisualizeLaser(target);
 
             float finalDPS = _damagePerSecond;
 
@@ -83,6 +78,35 @@ namespace MyDefenseGame
 
             // 4. 슬로우 효과 적용
             target.ApplySlow(_slowRate);
+        }
+
+        private void VisualizeLaser(EnemyController target)
+        {
+            // 1. 레이저 시각화 켜기
+            if (!_lineRenderer.enabled) _lineRenderer.enabled = true;
+            if (_laserHitEffect != null && !_laserHitEffect.isPlaying)
+            {
+                _laserHitEffect.Play();
+                _laserLight.enabled = true;
+            }
+
+
+            // 2. LineRenderer의 시작점(총구)과 끝점(타겟) 위치 갱신
+            _lineRenderer.SetPosition(0, _firePoint.position);
+            _lineRenderer.SetPosition(1, target.transform.position);
+
+            Vector3 direction = _firePoint.position - target.transform.position;
+            _laserHitEffect.transform.SetPositionAndRotation(target.transform.position + direction.normalized / 2, Quaternion.LookRotation(direction));
+        }
+
+        private void HideLaser()
+        {
+            if (_lineRenderer.enabled) _lineRenderer.enabled = false;
+            if (_laserHitEffect != null && _laserHitEffect.isPlaying)
+            {
+                _laserHitEffect.Stop();
+                _laserLight.enabled = false;
+            }
         }
         #endregion
     }

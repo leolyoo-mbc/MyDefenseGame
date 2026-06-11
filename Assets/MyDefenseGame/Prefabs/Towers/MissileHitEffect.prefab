@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7037842826321652005}
   - component: {fileID: 1980116607247858496}
   - component: {fileID: 1606513416522174301}
-  - component: {fileID: 6910768073723591217}
+  - component: {fileID: 8414062165823670165}
   m_Layer: 0
   m_Name: ImpactLight
   m_TagString: Untagged
@@ -44,9 +44,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 1, g: 0.5019608, b: 0, a: 1}
-  m_Intensity: 4
-  m_Range: 10
+  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Intensity: 20
+  m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -128,20 +128,28 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &6910768073723591217
-MonoBehaviour:
+--- !u!95 &8414062165823670165
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886104112805419231}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f9b65f735659c74d9c7150ee85c8376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.AutoDestroy
-  _customDelay: 0.1
-  _fallbackDelay: 2
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230675183fa907a4d9876ba2728b876e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6167223346622476611
 GameObject:
   m_ObjectHideFlags: 0
