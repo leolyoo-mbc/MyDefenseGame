@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MyDefenseGame
 {
@@ -57,24 +58,27 @@ namespace MyDefenseGame
         {
             if (moneyText != null)
             {
-                moneyText.text = $"{GameData.Money:N0} Gold"; //N0: 천 단위마다 쉼표 추가
+                moneyText.text = $"{GameData.Money:N0}"; //N0: 천 단위마다 쉼표 추가
             }
         }
 
         private void UpdateLivesUI()
         {
-            if (_livesText != null) _livesText.text = $"Lives: {GameData.Lives}";
+            if (_livesText != null) _livesText.text = $"{GameData.Lives}";
         }
 
         private void UpdateRoundsUI()
         {
             // 라운드의 경우 단순히 숫자만 표시할 수도 있고, 꾸밀 수도 있습니다.
-            if (_roundsText != null) _roundsText.text = $"Round: {GameData.Rounds}";
+            if (_roundsText != null) _roundsText.text = $"ROUND: {GameData.Rounds}";
         }
 
         public void OnClickRestart()
         {
             Debug.Log("Run RESTART");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(0);
+            //SceneManager.LoadScene("PlayScene");
         }
 
         public void OnClickMainMenu()

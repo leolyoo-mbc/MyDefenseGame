@@ -13,6 +13,7 @@ namespace MyDefenseGame
         public static event Action OnGameOver;//게임오버 발생 시 외부(UI 등)에 알릴 이벤트
         public static event Action OnPause;
         public static bool IsPaused { get; private set; } = false;
+        public bool _isGameOver = false;
         #endregion
 
         #region Unity Event Method
@@ -31,12 +32,14 @@ namespace MyDefenseGame
         #region Custom Method
         private void CheckGameOver()
         {
-            if (GameData.Lives <= 0)
-            {
-                Debug.Log("게임 오버 판정!");
-                Time.timeScale = 0f; // 게임 정지
-                OnGameOver?.Invoke(); // 게임오버 이벤트 발생
-            }
+            if (GameData.Lives <= 0) GameOver();
+        }
+
+        private void GameOver()
+        {
+            if (_isGameOver) return;
+            _isGameOver = true;
+            OnGameOver?.Invoke(); // 게임오버 이벤트 발생
         }
 
         public void OnCheatGold(InputAction.CallbackContext context)
@@ -48,17 +51,15 @@ namespace MyDefenseGame
         public void OnCheatGameOver(InputAction.CallbackContext context)
         {
             if (!_isCheatMode) return;
-            if (context.performed)
-            {
-                Time.timeScale = 0f; // 게임 정지
-                OnGameOver?.Invoke(); // 게임오버 이벤트 발생
-            }
+
+            if (context.performed) GameOver();
+
         }
 
         public void OnPauseKeyPressed(InputAction.CallbackContext context)
         {
             // 이미 게임오버 상태라면 일시정지를 하지 못하도록 막음
-            if (GameData.Lives <= 0) return;
+            if (_isGameOver) return;
 
             // 중요: 정확히 키가 눌린 순간(performed)에만 작동하도록 제한
             if (context.performed)
