@@ -27,9 +27,20 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        public void SetHighlight(bool isOn)
+        public void OnHover()
         {
-            _renderer.material = isOn ? _hoverMaterial : _defaultMaterial;
+            if (BuildManager.Instance.IsTowerSelected)
+                _renderer.material = _hoverMaterial;
+        }
+
+        public void OnNotHover()
+        {
+            _renderer.material = _defaultMaterial;
+        }
+
+        public void OnClick()
+        {
+            if (BuildManager.Instance.IsTowerSelected) TryInstallTower();
         }
 
         public void TryInstallTower()

@@ -32,15 +32,13 @@ namespace MyDefenseGame
                     {
                         ClearHover();
                         _lastHoveredTile = currentTile;
-
-                        if (BuildManager.Instance.IsTowerSelected)
-                            _lastHoveredTile.SetHighlight(true);
+                        _lastHoveredTile.OnHover();
                     }
 
                     //B. 클릭 처리
-                    if (Input.GetMouseButtonDown(0) && BuildManager.Instance.IsTowerSelected)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        _lastHoveredTile.TryInstallTower();
+                        _lastHoveredTile.OnClick();
                     }
                 }
             }
@@ -56,7 +54,7 @@ namespace MyDefenseGame
         {
             if (_lastHoveredTile != null)
             {
-                _lastHoveredTile.SetHighlight(false);
+                _lastHoveredTile.OnNotHover();
                 _lastHoveredTile = null;
             }
         }
