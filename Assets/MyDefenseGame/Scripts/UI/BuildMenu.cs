@@ -41,14 +41,14 @@ namespace MyDefenseGame
                 {
                     //기존에 인스펙터 창에서 수동으로 연결했던 OnClick 이벤트를 코드로 자동화
                     //버튼을 누르면 해당 슬롯의 blueprint를 SelectTower 함수로 전달하도록 설정
-                    slot.selectButton.onClick.AddListener(() => SelectTower(slot.blueprint));
+                    slot.selectButton.onClick.AddListener(() => SelectTowerBlueprint(slot.blueprint));
                 }
             }
         }
         #endregion
 
         #region Custom Method
-        private void SelectTower(TowerBlueprint blueprint)
+        private void SelectTowerBlueprint(TowerBlueprint blueprint)
         {
             BuildManager.Instance.SelectTower(blueprint);
             Debug.Log($"{blueprint.prefab.ToString()} 선택 하였습니다!!");

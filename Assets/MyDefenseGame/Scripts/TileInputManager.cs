@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace MyDefenseGame
 {
@@ -14,6 +15,8 @@ namespace MyDefenseGame
         #region Unity Event Method
         private void Update()
         {
+            if (Pointer.current == null) return;
+
             //1. UI 관통 방지
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             {
@@ -22,7 +25,8 @@ namespace MyDefenseGame
             }
 
             //2. 레이캐스트 실행
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector2 pointerPosition = Pointer.current.position.ReadValue();
+            Ray ray = Camera.main.ScreenPointToRay(pointerPosition);
             if (Physics.Raycast(ray, out RaycastHit hit, _maxRayDistance, _tileLayer))
             {
                 if (hit.collider.TryGetComponent<TileController>(out var currentTile))
@@ -36,7 +40,7 @@ namespace MyDefenseGame
                     }
 
                     //B. 클릭 처리
-                    if (Input.GetMouseButtonDown(0))
+                    if (Pointer.current.press.wasPressedThisFrame)
                     {
                         _lastHoveredTile.OnClick();
                     }
@@ -54,7 +58,7 @@ namespace MyDefenseGame
         {
             if (_lastHoveredTile != null)
             {
-                _lastHoveredTile.OnNotHover();
+                _lastHoveredTile.OnHoverExit();
                 _lastHoveredTile = null;
             }
         }

@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 8955027281503507272}
   - component: {fileID: 4475232574884639009}
   m_Layer: 10
-  m_Name: MachineGunTower
+  m_Name: MachineGunTower_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -455,8 +455,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5550862751298310713}
   - {fileID: 3046090141399763553}
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81e854575b29e94ca1c03e0218f1fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerTargetDetector
-  _attackRange: 7
+  _attackRange: 10
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -507,4 +507,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MachineGunShooter
   _firePoint: {fileID: 1160466702808206418}
   _projectilePrefab: {fileID: 3044561100916800402, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
-  _shootInterval: 1
+  _shootInterval: 0.75

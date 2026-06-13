@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MyDefenseGame
@@ -30,8 +31,8 @@ namespace MyDefenseGame
             }
         }
 
-        private TowerBlueprint _towerSelected;
-        public bool IsTowerSelected => _towerSelected != null;
+        private TowerBlueprint _blueprintSelected;
+        public bool IsTowerSelected => _blueprintSelected != null;
         #endregion
 
         #region Unity Event Method
@@ -62,29 +63,47 @@ namespace MyDefenseGame
         /// </summary>
         /// <param name="position">타워 생성 위치 Vector3</param>
         /// <returns>생성된 타워 GameObject</returns>
-        public GameObject BuildTowerOn(Vector3 position)
+        public bool TryBuildTowerOn(Vector3 position, out GameObject tower, out TowerBlueprint blueprint)
         {
-            if (_towerSelected == null)
+            if (_blueprintSelected == null)
             {
                 Debug.Log("설치할 타워 프리팹이 등록되지 않았습니다!");
-                return null;
+                tower = null;
+                blueprint = null;
+                return false;
             }
             //타워 생성
-            if (GameData.Money < _towerSelected.cost)
+            if (GameData.Money < _blueprintSelected.cost)
             {
                 Debug.Log("돈이 부족합니다");
-                return null;
+                tower = null;
+                blueprint = null;
+                return false;
             }
-            GameObject spawnedTower = Instantiate(_towerSelected.prefab, position, Quaternion.identity);
-            GameData.Money -= _towerSelected.cost;
+            tower = Instantiate(_blueprintSelected.prefab, position, Quaternion.identity);
+            blueprint = _blueprintSelected;
+            GameData.Money -= _blueprintSelected.cost;
             Debug.Log($"건설하고 남은돈 : {GameData.Money}");
-            _towerSelected = null;//타워 선택 초기화
-            return spawnedTower;
+            _blueprintSelected = null;//타워 선택 초기화
+            return true;
         }
 
         public void SelectTower(TowerBlueprint blueprint)
         {
-            _towerSelected = blueprint;
+            _blueprintSelected = blueprint;
+        }
+
+        public bool TryUpgradeTower(ref GameObject tower, TowerBlueprint blueprint)
+        {
+            //타워 업그레이드하는 로직 구현
+            if (blueprint.upgradedPrefab == null) return false;
+            if (GameData.Money < blueprint.upgradeCost) return false;
+            //이미 업그레이드 되어있으면 안되도록 해야함
+            Transform transform = tower.transform;
+            Destroy(tower);
+            tower = Instantiate(blueprint.upgradedPrefab, transform.position, transform.rotation);
+            GameData.Money -= blueprint.upgradeCost;
+            return true;
         }
         #endregion
     }
