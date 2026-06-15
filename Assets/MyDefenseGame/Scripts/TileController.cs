@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace MyDefenseGame
 {
+    /// <summary>
+    /// 타일 상태에 따라 타일의 외형을 변경하고 자신 위의 타워를 관리하는 클래스
+    /// </summary>
     [RequireComponent(typeof(Renderer))]
     public class TileController : MonoBehaviour
     {
@@ -22,6 +25,7 @@ namespace MyDefenseGame
             private set;
         }
         [SerializeField] private TilePopupManager _popupUI;
+        [SerializeField] private ParticleSystem _buildEffect;
         [SerializeField] private ParticleSystem _sellEffect;
         #endregion
 
@@ -72,6 +76,8 @@ namespace MyDefenseGame
             {
                 _installedTower = tower;
                 InstalledBlueprint = blueprint;
+                Instantiate(_buildEffect, transform.position, Quaternion.identity);
+                _popupUI.Close();
             }
         }
 
@@ -82,45 +88,22 @@ namespace MyDefenseGame
             {
                 print("업그레이드 완료!");
                 IsUpgraded = true;
+                Instantiate(_buildEffect, transform.position, Quaternion.identity);
+                _popupUI.Close();
             }
         }
 
-        public string GetUpgradeCostText()
-        {
-            if (IsUpgraded) return "MAX"; // 업그레이드 완료 시 표시할 텍스트
-            if (InstalledBlueprint != null) return InstalledBlueprint.upgradeCost.ToString();
-            return "-";
-        }
-
-        private int GetSellPrice()
-        {
-            if (InstalledBlueprint == null) return 0;
-
-            int totalCost = InstalledBlueprint.cost;
-            if (IsUpgraded) totalCost += InstalledBlueprint.upgradeCost;
-
-            return totalCost / 2;
-        }
-
-        // 2. [수정] 텍스트 반환 메서드는 계산식을 직접 쓰지 않고 헬퍼 메서드를 호출합니다.
-        public string GetSellPriceText()
-        {
-            if (InstalledBlueprint == null) return "-";
-            return GetSellPrice().ToString(); // 계산된 숫자를 문자로만 바꿈
-        }
-
-        // 3. [완성] 타워 판매 로직의 4단계 흐름
         public void OnSell()
         {
             // 방어적 코드: 타워가 없으면 무시
             if (_installedTower == null) return;
 
             // Step 1: 환불 금액을 플레이어 소지금에 더해줍니다.
-            GameData.Money += GetSellPrice();
-            Debug.Log($"타워 판매 완료! 돌려받은 돈: {GetSellPrice()}, 남은 돈: {GameData.Money}");
+            GameData.Money += InstalledBlueprint.GetSellPrice(IsUpgraded);
+            Debug.Log($"타워 판매 완료! 돌려받은 돈: {InstalledBlueprint.GetSellPrice(IsUpgraded)}, 남은 돈: {GameData.Money}");
 
-            // Step 2: 씬에서 타워 오브젝트를 파괴합니다.
-            Instantiate(_sellEffect, _installedTower.transform.position, _installedTower.transform.rotation);
+            // Step 2: 판매 이펙트를 재생하고 씬에서 타워 오브젝트를 파괴합니다.
+            Instantiate(_sellEffect, transform.position, Quaternion.identity);
             Destroy(_installedTower);
 
             // Step 3: 타일이 가지고 있던 상태 정보들을 모두 초기화합니다.
@@ -128,7 +111,6 @@ namespace MyDefenseGame
             InstalledBlueprint = null;
             IsUpgraded = false;
 
-            // Step 4: 타워가 사라졌으므로 떠 있는 UI를 닫아줍니다.
             _popupUI.Close();
         }
         #endregion

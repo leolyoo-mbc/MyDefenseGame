@@ -173,22 +173,22 @@ MonoBehaviour:
   - blueprint:
       prefab: {fileID: 9152249211276912844, guid: 7d0fe3401bea3a147af3cbbfd3eba9b8, type: 3}
       cost: 100
-      upgradedPrefab: {fileID: 9152249211276912844, guid: 9389c620e56a9a04cbed22364ef79e9f, type: 3}
+      upgradedPrefab: {fileID: 4949073784162114160, guid: b298c7ceaecd6ac4dadd623b6d836240, type: 3}
       upgradeCost: 150
     costText: {fileID: 16848696}
     selectButton: {fileID: 949282276}
   - blueprint:
       prefab: {fileID: 3149007405170449490, guid: c2b2fc62fc4515942b48fc548c0fe6b3, type: 3}
       cost: 250
-      upgradedPrefab: {fileID: 0}
-      upgradeCost: 0
+      upgradedPrefab: {fileID: 8322078017659508711, guid: 334ff102595a8084483b573e761ecaba, type: 3}
+      upgradeCost: 375
     costText: {fileID: 935766918}
     selectButton: {fileID: 511801934}
   - blueprint:
       prefab: {fileID: 4911293685155898164, guid: aafe64f232cb3dd4aa482f2134a2cc9e, type: 3}
       cost: 350
-      upgradedPrefab: {fileID: 0}
-      upgradeCost: 0
+      upgradedPrefab: {fileID: 1476765873659806408, guid: c90fb329140112146b394e6a65bf2f55, type: 3}
+      upgradeCost: 525
     costText: {fileID: 879872736}
     selectButton: {fileID: 516507078}
 --- !u!1001 &3730427
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.4
+  m_fontSize: 26
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1886,7 +1886,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.75
+  m_fontSize: 17.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3677,7 +3677,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.4
+  m_fontSize: 26
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3875,7 +3875,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.4
+  m_fontSize: 26
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5560,18 +5560,6 @@ MonoBehaviour:
     m_ActionName: 'Camera/ScrollWheel[/Mouse/scroll]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1134990379}
-        m_TargetAssemblyTypeName: MyDefenseGame.CameraController, Assembly-CSharp
-        m_MethodName: OnToggleControl
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 184871324}
         m_TargetAssemblyTypeName: MyDefenseGame.GameManager, Assembly-CSharp
         m_MethodName: OnPauseKeyPressed
@@ -6135,7 +6123,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.75
+  m_fontSize: 17.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7089,7 +7077,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.45
+  m_fontSize: 17.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7345,9 +7333,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1870631559}
-        m_TargetAssemblyTypeName: MyDefenseGame.UIManager, Assembly-CSharp
-        m_MethodName: OnClickRestart
+      - m_Target: {fileID: 184871324}
+        m_TargetAssemblyTypeName: MyDefenseGame.GameManager, Assembly-CSharp
+        m_MethodName: TogglePauseState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

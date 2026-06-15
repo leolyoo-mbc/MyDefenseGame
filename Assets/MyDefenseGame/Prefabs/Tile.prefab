@@ -127,4 +127,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TileController
   _hoverMaterial: {fileID: 2100000, guid: 97116cfb37a9bc541a96883748d981d5, type: 2}
   _popupUI: {fileID: 0}
+  _buildEffect: {fileID: 2167618253042938548, guid: d9404270e379a7f448bdb118adcf2575, type: 3}
   _sellEffect: {fileID: 6555131895387234401, guid: 371ef0123c063f2439772b876ab7c8d1, type: 3}

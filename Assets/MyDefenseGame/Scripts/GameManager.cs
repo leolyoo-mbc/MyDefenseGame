@@ -27,6 +27,14 @@ namespace MyDefenseGame
         {
             GameData.OnLivesChanged -= CheckGameOver;
         }
+
+        private void Awake()
+        {
+            // [버그 방지] 씬이 시작될 때마다 시간과 상태를 강제로 정상화합니다.
+            Time.timeScale = 1f;
+            IsPaused = false;
+            _isGameOver = false;
+        }
         #endregion
 
         #region Custom Method
@@ -56,22 +64,27 @@ namespace MyDefenseGame
 
         }
 
-        public void OnPauseKeyPressed(InputAction.CallbackContext context)
+        // 1. [추가] 순수하게 일시정지 상태를 전환하는 공통 메서드
+        public void TogglePauseState()
         {
             // 이미 게임오버 상태라면 일시정지를 하지 못하도록 막음
             if (_isGameOver) return;
 
+            // 1. 상태 반전 (true면 false로, false면 true로)
+            IsPaused = !IsPaused;
+            // 2. 시간에 반영 (일시정지 상태면 시간 속도 0, 아니면 원래 속도 1)
+            Time.timeScale = IsPaused ? 0f : 1f;
+            // 3. UI 매니저 등 리스너들에게 일시정지 상태가 바뀌었음을 알림
+            OnPause?.Invoke();
+        }
+
+        // 2. [수정] 키보드 입력 시 공통 메서드 호출
+        public void OnPauseKeyPressed(InputAction.CallbackContext context)
+        {
             // 중요: 정확히 키가 눌린 순간(performed)에만 작동하도록 제한
             if (context.performed)
             {
-                // 1. 상태 반전 (true면 false로, false면 true로)
-                IsPaused = !IsPaused;
-
-                // 2. 시간에 반영 (일시정지 상태면 시간 속도 0, 아니면 원래 속도 1)
-                Time.timeScale = IsPaused ? 0f : 1f;
-
-                // 3. UI 매니저 등 리스너들에게 일시정지 상태가 바뀌었음을 알림
-                OnPause?.Invoke();
+                TogglePauseState();
             }
         }
         #endregion

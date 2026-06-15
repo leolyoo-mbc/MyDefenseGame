@@ -24,7 +24,6 @@ namespace MyDefenseGame
         public void OnUpgradeButtonClicked()
         {
             if (_currentTile != null) _currentTile.OnUpgrade();
-            Open(_currentTile);
         }
 
         public void OnSellButtonClicked()
@@ -41,18 +40,22 @@ namespace MyDefenseGame
         public void Open(TileController calledTile)
         {
             _currentTile = calledTile;
+
+            //호출 타일의 위치로 이동
             transform.position = calledTile.transform.position;
-            _textUpgradeCost.text = calledTile.GetUpgradeCostText();
+            //업그레이드 가격 표시
+            if (calledTile.IsUpgraded) _textUpgradeCost.text = "DONE";
+            else _textUpgradeCost.text = calledTile.InstalledBlueprint.upgradeCost.ToString();
+            //이미 업그레이드 된 경우 업그레이드 버튼 비활성화
             _buttonUpgrade.interactable = !calledTile.IsUpgraded;
-            _textSellPrice.text = calledTile.GetSellPriceText();
+            //판매 가격 표시
+            _textSellPrice.text = calledTile.InstalledBlueprint.GetSellPrice(calledTile.IsUpgraded).ToString();
+
             gameObject.SetActive(true);
         }
 
         public void TogglePopup(TileController calledTile)
         {
-            // 방어적 코드: 알 수 없는 이유로 빈 데이터가 들어오면 무시합니다.
-            if (calledTile == null) return;
-
             // A. 이미 화면에 켜져 있고, 누른 타일이 '나 자신'이라면? -> 닫고 끝낸다.
             if (gameObject.activeSelf && _currentTile == calledTile)
             {
