@@ -1,5 +1,6 @@
 //EnemyController.cs
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MyDefenseGame
 {
@@ -10,7 +11,7 @@ namespace MyDefenseGame
     {
         //필드 선언부
         #region Variables
-        private Transform _destination;//이동 목적지 트랜스폼
+        [SerializeField] private Transform _destination;//이동 목적지 트랜스폼
         [SerializeField] private float _speed = 10f;
         [SerializeField] private float _maxHp = 100f;
         [SerializeField] private int _reward = 50;
@@ -19,6 +20,7 @@ namespace MyDefenseGame
         [SerializeField] private GameObject _deathEffectPrefab;
         private bool _dead = false;
         private bool _isSlowed = false;
+        [SerializeField] private Image _healthBarImage;
         #endregion
 
         //유니티 이벤트 함수 구현부
@@ -33,6 +35,9 @@ namespace MyDefenseGame
         {
             //목적지까지의 방향
             Vector3 dirNormalized = (_destination.position - transform.position).normalized;
+
+            //타겟을 바라보도록 회전
+            if (dirNormalized != Vector3.zero) transform.rotation = Quaternion.LookRotation(dirNormalized);
 
             //목적지까지의 거리
             float distanceToDestination = Vector3.Distance(_destination.position, transform.position);
@@ -60,6 +65,9 @@ namespace MyDefenseGame
                 //타겟을 향해 이동
                 this.transform.Translate(moveDistance * dirNormalized, Space.World);
             }
+
+            //체력바 업데이트
+            if (_healthBarImage != null) _healthBarImage.fillAmount = _currentHp / _maxHp;
         }
         #endregion
 
