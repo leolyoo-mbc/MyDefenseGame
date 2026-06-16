@@ -222,4 +222,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a0ba85dcb1e424e9b040b59bef94ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFader
-  _faderImage: {fileID: 0}
+  _faderImage: {fileID: 7706728652823962406}
