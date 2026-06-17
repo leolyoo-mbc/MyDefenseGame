@@ -15,8 +15,6 @@ namespace MyDefenseGame
         [SerializeField] private Wave[] _waves;
         [Tooltip("적이 나타날 시작 위치 오브젝트")]
         [SerializeField] private Transform _spawnPoint;
-        [Tooltip("스폰된 적의 이동 목적지 오브젝트")]
-        [SerializeField] private Transform _destination;
         [Tooltip("스폰된 적의 이동 웨이포인트 오브젝트")]
         [SerializeField] private WayPoints _wayPoints;
 
@@ -56,14 +54,14 @@ namespace MyDefenseGame
             GameData.Rounds = _waveIndex + 1;
             _waveStartButton.gameObject.SetActive(false);
             _waveInfoUI.SetActive(true);
-            StartCoroutine(SpawnRoutine(_waves[_waveIndex], _spawnPoint, _destination));
+            StartCoroutine(SpawnRoutine(_waves[_waveIndex], _spawnPoint));
             _waveIndex++;
         }
 
         /// <summary>
         /// 한 웨이브 내에서 지정된 수만큼 적을 연달아 생성하는 서브 코루틴
         /// </summary>
-        private IEnumerator SpawnRoutine(Wave wave, Transform spawnPoint, Transform destination)
+        private IEnumerator SpawnRoutine(Wave wave, Transform spawnPoint)
         {
             _enemyMax = wave.spawns.Length;
             enemyAlive = _enemyMax;

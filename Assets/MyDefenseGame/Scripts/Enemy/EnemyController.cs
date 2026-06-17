@@ -22,6 +22,8 @@ namespace MyDefenseGame
         private bool _dead = false;
         private bool _isSlowed = false;
         [SerializeField] private Image _healthBarImage;
+
+        private int _wayPointIndex = 0;//현재 향하고 있는 웨이포인트 인덱스
         #endregion
 
         //유니티 이벤트 함수 구현부
@@ -34,7 +36,7 @@ namespace MyDefenseGame
 
         void Update()
         {
-            Transform destination = _wayPoints.points[0];
+            Transform destination = _wayPoints.points[_wayPointIndex];
             //목적지까지의 방향
             Vector3 dirNormalized = (destination.position - transform.position).normalized;
 
@@ -60,7 +62,10 @@ namespace MyDefenseGame
             {
                 //도착 위치에 강제 이동시키기
                 this.transform.position = destination.position;
-                ArriveTarget();
+                _wayPointIndex++;
+
+                //마지막 웨이포인트까지 다 돌면 최종 도착 처리
+                if (_wayPointIndex >= _wayPoints.points.Length) ArriveTarget();
             }
             else
             {
