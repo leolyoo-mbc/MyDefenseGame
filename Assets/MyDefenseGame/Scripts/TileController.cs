@@ -54,16 +54,15 @@ namespace MyDefenseGame
 
         public void OnClick()
         {
-            if (BuildManager.Instance.IsTowerSelected) TryInstallTower();
-            else if (_installedTower != null)// 타워가 설치된 타일을 클릭한 경우
-            {
 
+            if (_installedTower != null)// 타워가 설치된 타일을 클릭한 경우
+            {
                 _popupUI.TogglePopup(this);
             }
             else
             {
-                //아무것도 해당 안 되는 빈 타일 클릭 시 인터페이스 닫기
-                _popupUI.Close();
+                if (BuildManager.Instance.IsTowerSelected) TryInstallTower();
+                else _popupUI.Close();
             }
 
         }

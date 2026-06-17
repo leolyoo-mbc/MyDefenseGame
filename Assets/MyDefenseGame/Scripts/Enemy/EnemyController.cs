@@ -12,6 +12,7 @@ namespace MyDefenseGame
         //필드 선언부
         #region Variables
         [SerializeField] private Transform _destination;//이동 목적지 트랜스폼
+        [SerializeField] private WayPoints _wayPoints;
         [SerializeField] private float _speed = 10f;
         [SerializeField] private float _maxHp = 100f;
         [SerializeField] private int _reward = 50;
@@ -33,14 +34,15 @@ namespace MyDefenseGame
 
         void Update()
         {
+            Transform destination = _wayPoints.points[0];
             //목적지까지의 방향
-            Vector3 dirNormalized = (_destination.position - transform.position).normalized;
+            Vector3 dirNormalized = (destination.position - transform.position).normalized;
 
             //타겟을 바라보도록 회전
             if (dirNormalized != Vector3.zero) transform.rotation = Quaternion.LookRotation(dirNormalized);
 
             //목적지까지의 거리
-            float distanceToDestination = Vector3.Distance(_destination.position, transform.position);
+            float distanceToDestination = Vector3.Distance(destination.position, transform.position);
 
             //이번 프레임에 원래 이동해야 할 거리
             float moveDistance;
@@ -57,7 +59,7 @@ namespace MyDefenseGame
             if (moveDistance >= distanceToDestination)
             {
                 //도착 위치에 강제 이동시키기
-                this.transform.position = _destination.position;
+                this.transform.position = destination.position;
                 ArriveTarget();
             }
             else
@@ -77,12 +79,14 @@ namespace MyDefenseGame
         {
             Debug.Log("종점 도착!!!!");
             GameData.Lives--;
+            EnemySpawner.enemyAlive--;
+
             Destroy(this.gameObject);
         }
 
-        public void Setup(Transform destination)
+        public void Setup(WayPoints wayPoints)
         {
-            _destination = destination;
+            _wayPoints = wayPoints;
         }
 
         public void TakeDamage(float damage)
@@ -110,6 +114,8 @@ namespace MyDefenseGame
             GameData.Money += _reward;
 
             if (_deathEffectPrefab != null) Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
+
+            EnemySpawner.enemyAlive--;
 
             Destroy(gameObject);
         }

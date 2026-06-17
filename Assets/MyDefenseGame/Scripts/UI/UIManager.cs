@@ -15,6 +15,9 @@ namespace MyDefenseGame
         [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private TMP_Text _survivedRoundsText;
         [SerializeField] private GameObject _pausePanel;
+
+        [SerializeField]
+        private SceneFader _fader;
         #endregion
 
         #region Unity Event Method
@@ -76,14 +79,14 @@ namespace MyDefenseGame
         public void OnClickRestart()
         {
             Debug.Log("Run RESTART");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            //SceneManager.LoadScene(0);
-            //SceneManager.LoadScene("PlayScene");
+            _fader.FadeTo(SceneManager.GetActiveScene().name);
         }
 
         public void OnClickMainMenu()
         {
+            Time.timeScale = 1f;
             Debug.Log("Goto Menu");
+            _fader.FadeTo("MainMenuScene");
         }
 
         private void ShowGameOverUI()
@@ -99,7 +102,6 @@ namespace MyDefenseGame
         {
             // GameManager가 정지 상태(true)면 켜지고, 해제 상태(false)면 꺼집니다.
             if (_pausePanel != null) _pausePanel.SetActive(GameManager.IsPaused);
-
         }
         #endregion
     }

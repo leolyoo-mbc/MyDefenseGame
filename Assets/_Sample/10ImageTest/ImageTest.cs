@@ -1,3 +1,4 @@
+using MySample;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class ImageTest : MonoBehaviour
     {
         isReady = true;
         _cooldown = _skillCooldown;
+        TestManager.Instance.number = 10;
+        print(TestManager.Instance.number);
     }
 
     private void Update()
@@ -26,7 +29,7 @@ public class ImageTest : MonoBehaviour
             {
                 isReady = true;
                 _skillButton.interactable = isReady;
-                
+
             }
             _skillButton.image.fillAmount = 1 - (_cooldown / _skillCooldown);
         }

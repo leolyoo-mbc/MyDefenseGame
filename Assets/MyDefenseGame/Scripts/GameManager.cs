@@ -30,10 +30,11 @@ namespace MyDefenseGame
 
         private void Awake()
         {
-            // [버그 방지] 씬이 시작될 때마다 시간과 상태를 강제로 정상화합니다.
+            //씬이 시작될 때마다 시간과 상태를 초기화합니다.
             Time.timeScale = 1f;
             IsPaused = false;
             _isGameOver = false;
+            GameData.ResetData();
         }
         #endregion
 
