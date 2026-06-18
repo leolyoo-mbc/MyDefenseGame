@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda4ed082a8610d49ae60465b3414323, type: 3}
+  m_Name: LaserTowerBlueprint
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerBlueprint
+  _prefab: {fileID: 4911293685155898164, guid: aafe64f232cb3dd4aa482f2134a2cc9e, type: 3}
+  _cost: 350
+  _upgradedPrefab: {fileID: 1476765873659806408, guid: c90fb329140112146b394e6a65bf2f55, type: 3}
+  _upgradeCost: 525

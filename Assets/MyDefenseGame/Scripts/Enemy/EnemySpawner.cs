@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace MyDefenseGame
 {
     /// <summary>
@@ -44,13 +43,13 @@ namespace MyDefenseGame
         {
             _waveInfoText.text = $"{enemyAlive} / {_enemyMax}";
             if (enemyAlive <= 0) ReadyNextWave();
-
         }
         #endregion
 
         #region Custom Method
         public void StartWave()
         {
+
             GameData.Rounds = _waveIndex + 1;
             _waveStartButton.gameObject.SetActive(false);
             _waveInfoUI.SetActive(true);
@@ -74,6 +73,8 @@ namespace MyDefenseGame
             }
         }
 
+
+
         void ReadyNextWave()
         {
             if (_waveStartButton.gameObject.activeSelf) return;
@@ -90,4 +91,6 @@ namespace MyDefenseGame
         }
         #endregion
     }
+
 }
+

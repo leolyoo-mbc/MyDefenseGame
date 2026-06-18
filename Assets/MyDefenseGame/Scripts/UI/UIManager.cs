@@ -86,7 +86,7 @@ namespace MyDefenseGame
         {
             Time.timeScale = 1f;
             Debug.Log("Goto Menu");
-            _fader.FadeTo("MainMenuScene");
+            _fader.FadeTo("MainMenu");
         }
 
         private void ShowGameOverUI()

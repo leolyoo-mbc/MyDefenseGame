@@ -1,14 +1,17 @@
+using UnityEngine;
+
 namespace MyDefenseGame
 {
     [System.Serializable]
     public struct Spawn
     {
-        public EnemyController enemyPrefab;
+        public GameObject enemyPrefab;
         public float delayNextSpawn;
     }
 
     [System.Serializable]
-    public class Wave
+    [CreateAssetMenu(fileName = "New Wave Data", menuName = "TowerDefense/Wave Data")]
+    public class Wave : ScriptableObject
     {
         #region Variables
         public Spawn[] spawns;

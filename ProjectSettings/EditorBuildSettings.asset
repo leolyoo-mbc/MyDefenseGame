@@ -9,8 +9,20 @@ EditorBuildSettings:
     path: Assets/MyDefenseGame/MainMenu.unity
     guid: f5988b87763d3624fb97c87aeac72f10
   - enabled: 1
+    path: Assets/MyDefenseGame/LevelSelect.unity
+    guid: 4327def1dea029649998653eb0363995
+  - enabled: 1
     path: Assets/MyDefenseGame/Level01.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/MyDefenseGame/Level02.unity
+    guid: 4f9ce41bdc0089b4c99249575ff25b86
+  - enabled: 1
+    path: Assets/MyDefenseGame/Level03.unity
+    guid: 83fb4867ddf4ea1448cd55505b0ef67b
+  - enabled: 1
+    path: Assets/MyDefenseGame/Level04.unity
+    guid: 3e142b13451e31147a83d0e88dab579b
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 36c368237b7201f489d87871f61e2108, type: 3}
   m_UseUCBPForAssetBundles: 0

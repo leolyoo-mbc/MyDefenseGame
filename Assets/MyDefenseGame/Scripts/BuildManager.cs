@@ -73,16 +73,16 @@ namespace MyDefenseGame
                 return false;
             }
             //타워 생성
-            if (GameData.Money < _blueprintSelected.cost)
+            if (GameData.Money < _blueprintSelected.Cost)
             {
                 Debug.Log("돈이 부족합니다");
                 tower = null;
                 blueprint = null;
                 return false;
             }
-            tower = Instantiate(_blueprintSelected.prefab, position, Quaternion.identity);
+            tower = Instantiate(_blueprintSelected.Prefab, position, Quaternion.identity);
             blueprint = _blueprintSelected;
-            GameData.Money -= _blueprintSelected.cost;
+            GameData.Money -= _blueprintSelected.Cost;
             Debug.Log($"건설하고 남은돈 : {GameData.Money}");
             _blueprintSelected = null;//타워 선택 초기화
             return true;
@@ -96,13 +96,13 @@ namespace MyDefenseGame
         public bool TryUpgradeTower(ref GameObject tower, TowerBlueprint blueprint)
         {
             //타워 업그레이드하는 로직 구현
-            if (blueprint.upgradedPrefab == null) return false;
-            if (GameData.Money < blueprint.upgradeCost) return false;
+            if (blueprint.UpgradedPrefab == null) return false;
+            if (GameData.Money < blueprint.UpgradeCost) return false;
             //이미 업그레이드 되어있으면 안되도록 해야함
             Transform transform = tower.transform;
             Destroy(tower);
-            tower = Instantiate(blueprint.upgradedPrefab, transform.position, transform.rotation);
-            GameData.Money -= blueprint.upgradeCost;
+            tower = Instantiate(blueprint.UpgradedPrefab, transform.position, transform.rotation);
+            GameData.Money -= blueprint.UpgradeCost;
             return true;
         }
         #endregion

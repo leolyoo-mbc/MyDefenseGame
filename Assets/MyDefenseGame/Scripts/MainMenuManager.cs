@@ -14,7 +14,7 @@ namespace MyDefenseGame
         {
             //시작 시 타임스케일 초기화
             Time.timeScale = 1.0f;
-            fader.StartFadeIn(1f);
+            fader.StartFadeIn(0);
         }
         #endregion
 
@@ -22,7 +22,7 @@ namespace MyDefenseGame
         public void OnClickPlay()
         {
             Debug.Log("Goto PlayScene");
-            fader.FadeTo(SceneManager.GetSceneAt(1).name);
+            fader.FadeTo("LevelSelect");
         }
 
         public void OnClickQuit()

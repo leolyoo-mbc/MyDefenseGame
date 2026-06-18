@@ -45,7 +45,7 @@ namespace MyDefenseGame
             transform.position = calledTile.transform.position;
             //업그레이드 가격 표시
             if (calledTile.IsUpgraded) _textUpgradeCost.text = "DONE";
-            else _textUpgradeCost.text = calledTile.InstalledBlueprint.upgradeCost.ToString();
+            else _textUpgradeCost.text = calledTile.InstalledBlueprint.UpgradeCost.ToString();
             //이미 업그레이드 된 경우 업그레이드 버튼 비활성화
             _buttonUpgrade.interactable = !calledTile.IsUpgraded;
             //판매 가격 표시

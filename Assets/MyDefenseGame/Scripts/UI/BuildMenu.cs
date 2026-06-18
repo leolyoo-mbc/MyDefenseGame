@@ -33,7 +33,7 @@ namespace MyDefenseGame
                 //텍스트 초기화
                 if (slot.costText != null)
                 {
-                    slot.costText.text = $"{slot.blueprint.cost}";
+                    slot.costText.text = $"{slot.blueprint.Cost}";
                 }
 
                 //버튼 이벤트 동적 연결 (가장 중요한 부분)
@@ -51,7 +51,7 @@ namespace MyDefenseGame
         private void SelectTowerBlueprint(TowerBlueprint blueprint)
         {
             BuildManager.Instance.SelectTower(blueprint);
-            Debug.Log($"{blueprint.prefab.ToString()} 선택 하였습니다!!");
+            Debug.Log($"{blueprint.Prefab.ToString()} 선택 하였습니다!!");
         }
         #endregion
     }

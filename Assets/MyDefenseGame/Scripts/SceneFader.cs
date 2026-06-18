@@ -28,6 +28,9 @@ namespace MyDefenseGame
         private void Start()
         {
             if (_autoStart) StartCoroutine(FadeIn(_delayTime));
+            Color color = _faderImage.color;
+            color.a = 1f;
+            _faderImage.color = color;
         }
         #endregion
 
