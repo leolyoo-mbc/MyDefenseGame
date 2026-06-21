@@ -1,4 +1,5 @@
 using System.Collections;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +13,8 @@ namespace MyDefenseGame
         #region Variables
         [Header("스폰 기본 설정")]
         [SerializeField] private Wave[] _waves;
-        [Tooltip("적이 나타날 시작 위치 오브젝트")]
-        [SerializeField] private Transform _spawnPoint;
-        [Tooltip("스폰된 적의 이동 웨이포인트 오브젝트")]
-        [SerializeField] private WayPoints _wayPoints;
+        [Tooltip("적이 나타날 시작 노드")]
+        [SerializeField] private Node _startNode;
 
         [Space(20)]
         [Header("UI 세팅")]
@@ -30,6 +29,8 @@ namespace MyDefenseGame
         public static int enemyAlive = 0;
 
         private int _waveIndex = 0;
+
+        private bool _isSpawning = false;
         #endregion
 
         #region Unity Event Method
@@ -41,8 +42,13 @@ namespace MyDefenseGame
 
         private void Update()
         {
-            _waveInfoText.text = $"{enemyAlive} / {_enemyMax}";
-            if (enemyAlive <= 0) ReadyNextWave();
+            // 나쁜 예 (매 프레임 가비지 발생)
+            // _waveInfoText.text = $"{enemyAlive} / {_enemyMax}";
+
+            // 좋은 예 (가비지 발생 없음 또는 극소화)
+            _waveInfoText.SetText("{0} / {1}", enemyAlive, _enemyMax);
+
+            if (enemyAlive <= 0 && !_isSpawning) ReadyNextWave();
         }
         #endregion
 
@@ -53,27 +59,40 @@ namespace MyDefenseGame
             GameData.Rounds = _waveIndex + 1;
             _waveStartButton.gameObject.SetActive(false);
             _waveInfoUI.SetActive(true);
-            StartCoroutine(SpawnRoutine(_waves[_waveIndex], _spawnPoint));
+            StartCoroutine(SpawnRoutine(_waves[_waveIndex], _startNode));
             _waveIndex++;
         }
 
         /// <summary>
         /// 한 웨이브 내에서 지정된 수만큼 적을 연달아 생성하는 서브 코루틴
         /// </summary>
-        private IEnumerator SpawnRoutine(Wave wave, Transform spawnPoint)
+        private IEnumerator SpawnRoutine(Wave wave, Node startNode)
         {
-            _enemyMax = wave.spawns.Length;
-            enemyAlive = _enemyMax;
+            _isSpawning = true;
 
-            foreach (var spawn in wave.spawns)
+            // 1. [추가] 스폰 시작 전, 이번 웨이브의 총 적 마리 수를 미리 모두 더합니다.
+            _enemyMax = 0;
+            foreach (var spawnGroup in wave.SpawnGroups)
             {
-                GameObject spawnedEnemy = Instantiate(spawn.enemyPrefab.gameObject, spawnPoint.position, Quaternion.identity);
-                spawnedEnemy.GetComponent<EnemyController>().Setup(_wayPoints);//웨이포인트 지정
-                yield return new WaitForSeconds(spawn.delayNextSpawn);
+                _enemyMax += spawnGroup.SpawnCount;
             }
+
+            enemyAlive = 0; // 살아있는 적 수는 0으로 초기화
+
+            foreach (var spawnGroup in wave.SpawnGroups)
+            {
+                for (int i = 0; i < spawnGroup.SpawnCount; i++)
+                {
+                    EnemyController spawnedEnemy = Instantiate(spawnGroup.EnemyPrefab, startNode.Position, Quaternion.identity);
+                    spawnedEnemy.Init(startNode);
+                    enemyAlive++;
+                    yield return new WaitForSeconds(spawnGroup.SpawnInterval);
+                }
+                yield return new WaitForSeconds(spawnGroup.DelayNextSpawnGroup);
+            }
+
+            _isSpawning = false;
         }
-
-
 
         void ReadyNextWave()
         {
@@ -82,6 +101,10 @@ namespace MyDefenseGame
             if (_waveIndex >= _waves.Length)
             {
                 print("LEVEL CLEAR");
+
+                // 레벨 클리어 로직
+                GameManager.isClearLevel = true;
+
                 gameObject.SetActive(false);
                 return;
             }
@@ -91,6 +114,5 @@ namespace MyDefenseGame
         }
         #endregion
     }
-
 }
 

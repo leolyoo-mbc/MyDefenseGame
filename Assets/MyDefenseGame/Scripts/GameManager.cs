@@ -7,6 +7,7 @@ namespace MyDefenseGame
     public class GameManager : MonoBehaviour
     {
         #region Variables
+        [SerializeField] private int nowLevel;
         private int _cheatGoldAmount = 100000;
         [SerializeField] private bool _isCheatMode = false;
 
@@ -14,6 +15,9 @@ namespace MyDefenseGame
         public static event Action OnPause;
         public static bool IsPaused { get; private set; } = false;
         public bool _isGameOver = false;
+        public static bool isClearLevel = false;
+
+        public GameObject levelClearUI;
         #endregion
 
         #region Unity Event Method
@@ -35,10 +39,40 @@ namespace MyDefenseGame
             IsPaused = false;
             _isGameOver = false;
             GameData.ResetData();
+            isClearLevel = false;
+
+            levelClearUI.SetActive(false);
         }
+
+        void Update()
+        {
+            if (isClearLevel)
+            {
+                LevelClear();
+            }
+        }
+
+
         #endregion
 
         #region Custom Method
+        private void LevelClear()
+        {
+            Debug.Log("Level Clear!!!!");
+
+            //게임 데이터 저장 - 
+            int clearLevel = PlayerPrefs.GetInt(Constants.KEY_REACHED_LEVEL, 0);
+            //저장된 데이터 체크
+            if (nowLevel > clearLevel)
+            {
+                PlayerPrefs.SetInt(Constants.KEY_REACHED_LEVEL, nowLevel);
+                Debug.Log($"Save Clear Level: {nowLevel}");
+            }
+
+            //UI 보여주기(활성화)
+            levelClearUI.SetActive(true);
+        }
+
         private void CheckGameOver()
         {
             if (GameData.Lives <= 0) GameOver();

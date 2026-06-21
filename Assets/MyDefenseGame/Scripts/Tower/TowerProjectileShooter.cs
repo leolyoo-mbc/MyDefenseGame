@@ -13,7 +13,7 @@ namespace MyDefenseGame
         #region Variables
         private TowerTargetDetector _targetDetector;
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private GameObject _projectilePrefab;
+        [SerializeField] private ProjectileController _projectilePrefab;
         [SerializeField] private float _shootInterval = 1f;
 
         private float _shootCooldown = 0f;
@@ -32,30 +32,15 @@ namespace MyDefenseGame
             if (_shootCooldown <= 0f)
             {
                 //쿨다운이 끝났다면 발사!
-                if (TryShoot())
+                if (_targetDetector.TryGetCurrentTarget(out GameObject currentTarget))
                 {
+                    print("Shoot!!!!!");
+                    ProjectileController spawnedProjectile = Instantiate(_projectilePrefab, _firePoint.position, _firePoint.rotation);
+                    spawnedProjectile.Shoot(currentTarget);
+
                     _shootCooldown = _shootInterval;//발사 성공 시 쿨다운 초기화
                 }
             }
-        }
-        #endregion
-
-        #region Custom Method
-        /// <summary>
-        /// 탄환을 발사하는 메서드
-        /// </summary>
-        /// <returns>발사 성공 여부 bool</returns>
-        private bool TryShoot()
-        {
-            EnemyController currentTarget = _targetDetector.GetCurrentTarget();
-            //타겟이 없으면 아래 로직을 타지 않고 리턴
-            if (currentTarget == null) return false;
-            print("Shoot!!!!!");
-            //발사할때 총구(FirePoint) 위치에 발사체 객체 생성하기
-            GameObject spawnedProjectile = Instantiate(_projectilePrefab, _firePoint.position, _firePoint.rotation);
-            //탄환 객체에 타겟 할당
-            spawnedProjectile.GetComponent<ProjectileController>().Setup(currentTarget);
-            return true;
         }
         #endregion
     }

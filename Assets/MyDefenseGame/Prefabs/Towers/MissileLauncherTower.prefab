@@ -173,6 +173,7 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  _searchInterval: 0.1
 --- !u!114 &4992550400490918425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerShooter
   _firePoint: {fileID: 8938099680571347818}
-  _projectilePrefab: {fileID: 1593046666255972, guid: 1879d3bd2951ca0418a3c1484306b5a3, type: 3}
+  _projectilePrefab: {fileID: 1142270470816573110, guid: 1879d3bd2951ca0418a3c1484306b5a3, type: 3}
   _shootInterval: 4
 --- !u!1 &4065447536580437357
 GameObject:

@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 713169930775723990}
   - component: {fileID: 4803390409252823384}
   - component: {fileID: 5819826674843282451}
+  - component: {fileID: 8573480838978727647}
   m_Layer: 3
   m_Name: Enemy_Tough
   m_TagString: Untagged
@@ -357,12 +358,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37b7f09fc833864b9372bbcafb64072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
-  _destination: {fileID: 0}
   _speed: 2
-  _maxHp: 350
   _reward: 140
   _deathEffectPrefab: {fileID: 6970785721362320762, guid: 7d35d6b75029bf74fa0395fb5a0276ae, type: 3}
   _healthBarImage: {fileID: 6645885176868910343}
+--- !u!114 &8573480838978727647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648449063039846298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae9aff451d90384ca515e30d1f6f2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.Damageable
+  _maxHealth: 350
 --- !u!1 &6030376988215923873
 GameObject:
   m_ObjectHideFlags: 0

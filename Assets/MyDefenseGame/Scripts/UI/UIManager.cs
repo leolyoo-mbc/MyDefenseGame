@@ -103,6 +103,11 @@ namespace MyDefenseGame
             // GameManager가 정지 상태(true)면 켜지고, 해제 상태(false)면 꺼집니다.
             if (_pausePanel != null) _pausePanel.SetActive(GameManager.IsPaused);
         }
+
+        public void OnClickNextLevel(string sceneName)
+        {
+            _fader.FadeTo(sceneName);
+        }
         #endregion
     }
 }

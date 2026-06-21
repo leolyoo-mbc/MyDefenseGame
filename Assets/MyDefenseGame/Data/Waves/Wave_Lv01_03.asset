@@ -12,14 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff035738c7f3534bbdfdec161b830ab, type: 3}
   m_Name: Wave_Lv01_03
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.Wave
-  spawns:
-  - enemyPrefab: {fileID: 5648449063039846298, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
-    delayNextSpawn: 0.5
-  - enemyPrefab: {fileID: 5648449063039846298, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
-    delayNextSpawn: 0.5
-  - enemyPrefab: {fileID: 5648449063039846298, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
-    delayNextSpawn: 0.5
-  - enemyPrefab: {fileID: 5648449063039846298, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
-    delayNextSpawn: 0.5
-  - enemyPrefab: {fileID: 5648449063039846298, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
-    delayNextSpawn: 0
+  _spawnGroups:
+  - _enemyPrefab: {fileID: 5819826674843282451, guid: 7ccd4451f61777445b5dd72fb3aba6e4, type: 3}
+    _spawnCount: 5
+    _spawnInterval: 0.5
+    _delayNextSpawnGroup: 0

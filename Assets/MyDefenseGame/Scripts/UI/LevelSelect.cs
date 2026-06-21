@@ -17,7 +17,7 @@ namespace MyDefenseGame
         {
             // [과제 4, 5 핵심] 기기에 저장된 유저의 진행도(nowLevel)를 불러옵니다.
             // "ReachedLevel"이라는 이름으로 저장된 값을 찾되, 처음 실행해서 데이터가 없으면 기본값인 1을 반환합니다.
-            int nowLevel = PlayerPrefs.GetInt("ReachedLevel", 1);
+            int nowLevel = PlayerPrefs.GetInt(Constants.KEY_REACHED_LEVEL, 1);
 
             _levelButtons = new Button[_content.childCount];
 
@@ -28,7 +28,7 @@ namespace MyDefenseGame
 
                 // i는 0부터 시작하므로, 레벨 1 버튼의 i는 0입니다.
                 // 만약 nowLevel이 1이라면, i < 1 조건을 만족하는 0번째 버튼(1레벨)만 true가 됩니다.
-                if (i < nowLevel)
+                if (i - 1 < nowLevel)
                 {
                     _levelButtons[i].interactable = true;  // UnLock
                 }
@@ -42,6 +42,11 @@ namespace MyDefenseGame
 
         #region Custom Method
         public void OnClickLevelButton(string sceneName)
+        {
+            _fader.FadeTo(sceneName);
+        }
+
+        public void OnClickBackButton(string sceneName)
         {
             _fader.FadeTo(sceneName);
         }

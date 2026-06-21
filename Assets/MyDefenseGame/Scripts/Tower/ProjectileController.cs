@@ -8,7 +8,7 @@ namespace MyDefenseGame
     public abstract class ProjectileController : MonoBehaviour
     {
         #region Variables
-        protected EnemyController _target;
+        protected GameObject _target;
 
         [Tooltip("발사체의 속도")]
         [SerializeField] protected float _speed;
@@ -26,7 +26,8 @@ namespace MyDefenseGame
                 return;
             }
 
-            Vector3 targetPosition = _target.transform.position;//이번 프레임에 널세이프하도록 로컬변수에 저장
+            GameObject target = _target;
+            Vector3 targetPosition = target.transform.position;//이번 프레임에 널세이프하도록 로컬변수에 저장
             Vector3 direction = targetPosition - transform.position;//타겟을 향한 방향 벡터
             Quaternion lookRotation = Quaternion.LookRotation(direction);//타겟을 바라보는 회전 값
 
@@ -36,7 +37,7 @@ namespace MyDefenseGame
             //이번 프레임에 이동 시 타겟을 지나칠 예정이면 타겟에 도착한 것으로 판정
             if (moveDistance >= distanceToTarget)
             {
-                HitTarget();
+                Hit(target);
             }
             else
             {
@@ -48,11 +49,7 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        /// <summary>
-        /// 발사체의 타겟을 초기화하는 메서드
-        /// </summary>
-        /// <param name="target">발사체가 향할 타겟</param>
-        public virtual void Setup(EnemyController target)
+        public virtual void Shoot(GameObject target)
         {
             _target = target;
         }
@@ -60,13 +57,13 @@ namespace MyDefenseGame
         /// <summary>
         /// 발사체의 충돌을 처리하는 메서드
         /// </summary>
-        protected virtual void HitTarget()
+        protected virtual void Hit(GameObject target)
         {
             //1. 공통 기능: 이펙트 생성
             if (_hitEffectPrefab != null) Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
 
             //2. 고유 기능: 자식 클래스가 구현한 실제 공격 로직 호출
-            ApplyDamage(_target);
+            if (target.TryGetComponent<Damageable>(out Damageable targetDamageable)) ApplyDamage(targetDamageable);
 
             //3. 공통 기능: 내 자신(발사체) 파괴
             Destroy(gameObject);
@@ -75,7 +72,7 @@ namespace MyDefenseGame
         /// <summary>
         /// 자식 클래스가 반드시 구현해야 하는 '실제 데미지/적 파괴' 로직
         /// </summary>
-        protected abstract void ApplyDamage(IDamageable target);
+        protected abstract void ApplyDamage(Damageable target);
         #endregion
     }
 }

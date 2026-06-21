@@ -16,7 +16,9 @@ namespace MyDefenseGame
 
         [SerializeField] private float _bonusDamage = 15f;
         [SerializeField] private float _bonusDamageTime = 1.5f;
-        private EnemyController _lastTarget;  // 직전 프레임에 때렸던 타겟 기억
+        private GameObject _lastTarget;  // 직전 프레임에 때렸던 타겟 기억
+        private Damageable _lastTargetDamageable; // GetComponent 호출 최소화를 위해 별도로 관리
+        private EnemyController _lastTargetSlowable; // GetComponent 호출 최소화를 위해 별도로 관리
         private float _attackDuration = 0f;   // 동일한 타겟을 공격한 누적 시간
 
         // 레이저 타격 이펙트 (타겟에 맞는 부위에 생성할 파티클)
@@ -34,15 +36,19 @@ namespace MyDefenseGame
 
         private void Update()
         {
-            EnemyController currentTarget = _targetDetector.GetCurrentTarget();
 
-            if (currentTarget != null)
+            if (_targetDetector.TryGetCurrentTarget(out GameObject currentTarget))
             {
                 if (_lastTarget != currentTarget)
                 {
                     // 타겟이 바뀌었다면 (기존 타겟 사망 or 더 가까운 적 등장) 타이머 초기화
                     _attackDuration = 0f;
+
                     _lastTarget = currentTarget;
+                    if (currentTarget.TryGetComponent<Damageable>(out Damageable currentTargetDamageable)) _lastTargetDamageable = currentTargetDamageable;
+                    else _lastTargetDamageable = null;
+                    if (currentTarget.TryGetComponent<EnemyController>(out EnemyController currentTargetSlowable)) _lastTargetSlowable = currentTargetSlowable;
+                    else _lastTargetSlowable = null;
                 }
                 else
                 {
@@ -51,7 +57,9 @@ namespace MyDefenseGame
                 }
 
                 // 2. 레이저 발사 및 데미지 적용
-                ShootLaser(currentTarget);
+                VisualizeLaser(currentTarget);
+                if (_lastTargetDamageable != null) ApplyDamage(_lastTargetDamageable);
+                if (_lastTargetSlowable != null) _lastTargetSlowable.ApplySlow(_slowRate);
             }
             else
             {
@@ -59,15 +67,15 @@ namespace MyDefenseGame
                 HideLaser();
                 _attackDuration = 0f; // 누적 시간 초기화
                 _lastTarget = null;   // 기억하던 타겟 삭제
+                _lastTargetDamageable = null;
+                _lastTargetSlowable = null;
             }
         }
         #endregion
 
         #region Custom Method
-        private void ShootLaser(EnemyController target)
+        private void ApplyDamage(Damageable target)
         {
-            VisualizeLaser(target);
-
             float finalDPS = _damagePerSecond;
 
             // 누적 시간이 보너스 조건을 충족했다면 데미지 증폭
@@ -75,12 +83,9 @@ namespace MyDefenseGame
 
             // 3. 지속 데미지 적용
             target.TakeDamage(finalDPS * Time.deltaTime);
-
-            // 4. 슬로우 효과 적용
-            target.ApplySlow(_slowRate);
         }
 
-        private void VisualizeLaser(EnemyController target)
+        private void VisualizeLaser(GameObject target)
         {
             // 1. 레이저 시각화 켜기
             if (!_lineRenderer.enabled) _lineRenderer.enabled = true;

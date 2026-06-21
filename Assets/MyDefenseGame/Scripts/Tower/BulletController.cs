@@ -12,7 +12,7 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        protected override void ApplyDamage(IDamageable target)
+        protected override void ApplyDamage(Damageable target)
         {
             Debug.Log("Hit Target!!!");
             if (_target != null) target.TakeDamage(_damage);

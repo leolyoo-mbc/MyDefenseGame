@@ -7,74 +7,67 @@ namespace MyDefenseGame
     /// <summary>
     /// 적(Enemy)을 관리하는 클래스
     /// </summary>
-    public class EnemyController : MonoBehaviour, IDamageable
+    public class EnemyController : MonoBehaviour, IDeathListener, IHealthChangeListener
     {
         //필드 선언부
         #region Variables
-        [SerializeField] private Transform _destination;//이동 목적지 트랜스폼
-        [SerializeField] private WayPoints _wayPoints;
         [SerializeField] private float _speed = 10f;
-        [SerializeField] private float _maxHp = 100f;
         [SerializeField] private int _reward = 50;
-        private float _currentHp;
         private float _currentSlowRate = 0f;
         [SerializeField] private GameObject _deathEffectPrefab;
-        private bool _dead = false;
         private bool _isSlowed = false;
         [SerializeField] private Image _healthBarImage;
 
-        private int _wayPointIndex = 0;//현재 향하고 있는 웨이포인트 인덱스
+        private Node _nextNode;
         #endregion
 
         //유니티 이벤트 함수 구현부
         #region Unity Event Method
-        private void Start()
-        {
-            //현재 체력 최대 체력으로 초기화
-            _currentHp = _maxHp;
-        }
-
         void Update()
         {
-            Transform destination = _wayPoints.points[_wayPointIndex];
-            //목적지까지의 방향
+            // 방어적 코드: 목적지 노드가 지정되지 않았거나 최종 종점에 도달했다면 이동 중지
+            if (_nextNode == null) return;
+
+            // 1. [수정] 현재 향하고 있는 노드의 transform을 목적지로 설정합니다.
+            Transform destination = _nextNode.transform;
+
+            // 목적지까지의 방향
             Vector3 dirNormalized = (destination.position - transform.position).normalized;
 
-            //타겟을 바라보도록 회전
+            // 타겟을 바라보도록 회전
             if (dirNormalized != Vector3.zero) transform.rotation = Quaternion.LookRotation(dirNormalized);
 
-            //목적지까지의 거리
+            // 목적지까지의 거리
             float distanceToDestination = Vector3.Distance(destination.position, transform.position);
 
-            //이번 프레임에 원래 이동해야 할 거리
-            float moveDistance;
+            // 이번 프레임에 원래 이동해야 할 거리 계산
+            float moveDistance = _speed * Time.deltaTime;
+            if (_isSlowed) moveDistance *= 1 - _currentSlowRate;
 
-            //슬로우 상태에 따라 계산
-            if (_isSlowed) moveDistance = _speed * (1 - _currentSlowRate) * Time.deltaTime;
-            else moveDistance = _speed * Time.deltaTime;
-
-            //이번 프레임에 슬로우 적용이 끝났으므로 변수 초기화
+            // 슬로우 변수 초기화
             _isSlowed = false;
             _currentSlowRate = 0f;
 
-            //이동할 거리가 남은 거리보다 크면 도착 판정
+            // 이동할 거리가 남은 거리보다 크면 해당 노드 도착 판정
             if (moveDistance >= distanceToDestination)
             {
-                //도착 위치에 강제 이동시키기
+                // 노드 위치에 정확히 강제 고정
                 this.transform.position = destination.position;
-                _wayPointIndex++;
 
-                //마지막 웨이포인트까지 다 돌면 최종 도착 처리
-                if (_wayPointIndex >= _wayPoints.points.Length) ArriveTarget();
+                // 2. [수정] 노드가 보유한 프로퍼티를 통해 '다음 노드'로 목적지를 갱신합니다.
+                _nextNode = _nextNode.NextNode;
+
+                // 3. [수정] 다음 노드가 존재하지 않는다면(null), 최종 종점에 도달한 것입니다.
+                if (_nextNode == null)
+                {
+                    ArriveTarget();
+                }
             }
             else
             {
-                //타겟을 향해 이동
+                // 아직 노드에 도달하지 않았다면 타겟을 향해 이동
                 this.transform.Translate(moveDistance * dirNormalized, Space.World);
             }
-
-            //체력바 업데이트
-            if (_healthBarImage != null) _healthBarImage.fillAmount = _currentHp / _maxHp;
         }
         #endregion
 
@@ -89,16 +82,10 @@ namespace MyDefenseGame
             Destroy(this.gameObject);
         }
 
-        public void Setup(WayPoints wayPoints)
+        // [수정] 스포너가 적을 소환할 때, 첫 번째 노드를 매개변수로 넘겨주어 경로 설정을 시작합니다.
+        public void Init(Node startNode)
         {
-            _wayPoints = wayPoints;
-        }
-
-        public void TakeDamage(float damage)
-        {
-            if (_dead) return;//죽은 상태면 중복 실행 방지
-            _currentHp = Mathf.Max(_currentHp - damage, 0);
-            if (_currentHp <= 0) Die();
+            _nextNode = startNode;
         }
 
         public void ApplySlow(float slowRate)
@@ -112,17 +99,18 @@ namespace MyDefenseGame
             }
         }
 
-        private void Die()
+        public void OnDeath()
         {
-            _dead = true;
-
             GameData.Money += _reward;
-
-            if (_deathEffectPrefab != null) Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
-
             EnemySpawner.enemyAlive--;
 
+            if (_deathEffectPrefab != null) Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
+        }
+
+        public void OnHealthChanged(float currentHealth, float maxHealth)
+        {
+            if (_healthBarImage != null) _healthBarImage.fillAmount = currentHealth / maxHealth;
         }
         #endregion
     }

@@ -506,5 +506,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineGunShooter
   _firePoint: {fileID: 1160466702808206418}
-  _projectilePrefab: {fileID: 3044561100916800402, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
+  _projectilePrefab: {fileID: -4459841536930525824, guid: 0c53f83ada60db2438b7e3f9e262ccb0, type: 3}
   _shootInterval: 1

@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.TowerProjectileShooter
   _firePoint: {fileID: 6392311881802010569}
-  _projectilePrefab: {fileID: 3044561100916800402, guid: adaf79b0ed9dff546a666161b7352cca, type: 3}
+  _projectilePrefab: {fileID: -4459841536930525824, guid: adaf79b0ed9dff546a666161b7352cca, type: 3}
   _shootInterval: 0.75
 --- !u!1 &5900544722348883098
 GameObject:

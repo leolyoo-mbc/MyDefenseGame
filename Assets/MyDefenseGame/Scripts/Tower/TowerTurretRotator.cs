@@ -25,11 +25,7 @@ namespace MyDefenseGame
 
         private void Update()
         {
-            if (_targetDetector.GetCurrentTarget() != null)
-            {
-                //타겟으로 터렛을 회전
-                RotateTurretToTarget(_targetDetector.GetCurrentTarget().transform);
-            }
+            if (_targetDetector.TryGetCurrentTarget(out GameObject currentTarget)) RotateTurretTo(currentTarget);
         }
         #endregion
 
@@ -38,9 +34,9 @@ namespace MyDefenseGame
         /// 타겟으로 터렛을 회전시키는 메서드
         /// </summary>
         /// <param name="target">회전시킬 타겟의 Transform</param>
-        private void RotateTurretToTarget(Transform target)
+        private void RotateTurretTo(GameObject target)
         {
-            Vector3 directionToTarget = target.position - _turretRotator.position;
+            Vector3 directionToTarget = target.transform.position - _turretRotator.position;
             Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
 
             //1. Lerp로 부드럽게 조준하되

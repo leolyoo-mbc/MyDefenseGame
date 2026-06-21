@@ -23,7 +23,7 @@ namespace MyDefenseGame
         #endregion
 
         #region Custom Method
-        protected override void ApplyDamage(IDamageable target)
+        protected override void ApplyDamage(Damageable target)
         {
             Debug.Log("미사일 타격! 광역 폭발 발생!");
 
@@ -34,7 +34,7 @@ namespace MyDefenseGame
             foreach (Collider hitCol in hitColliders)
             {
                 // 3. 해당 충돌체에 데미지를 줄 수 있는지 확인합니다.
-                if (hitCol.TryGetComponent(out IDamageable enemy))
+                if (hitCol.TryGetComponent(out Damageable enemy))
                 {
                     enemy.TakeDamage(_damage);
                 }

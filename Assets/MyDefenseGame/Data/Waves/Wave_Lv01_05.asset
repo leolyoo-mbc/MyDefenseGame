@@ -12,24 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff035738c7f3534bbdfdec161b830ab, type: 3}
   m_Name: Wave_Lv01_05
   m_EditorClassIdentifier: Assembly-CSharp::MyDefenseGame.Wave
-  spawns:
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0.33
-  - enemyPrefab: {fileID: 5648449063039846298, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
-    delayNextSpawn: 0
+  _spawnGroups:
+  - _enemyPrefab: {fileID: 5819826674843282451, guid: dc2ba90c0681f5140a880ace31f128f7, type: 3}
+    _spawnCount: 10
+    _spawnInterval: 0.33
+    _delayNextSpawnGroup: 0
